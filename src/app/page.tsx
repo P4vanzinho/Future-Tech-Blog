@@ -272,6 +272,8 @@ export default function Home() {
           </p>
         </div>
       </footer>
+
+      <div>TESTING TEMPLATE PR</div>
     </div>
   );
 }
