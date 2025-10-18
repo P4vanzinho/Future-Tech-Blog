@@ -258,6 +258,7 @@ export default function Home() {
         </section>
       </main>
 
+      {/* Footer */}
       <footer className="bg-dark-08 text-white p-8 mt-16">
         <div className="max-w-4xl mx-auto text-center">
           <h3 className="text-xl font-display font-semibold mb-2">
