@@ -1,36 +1,210 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Future Tech Blog
 
-## Getting Started
+A modern technology blog built with Next.js 15, React 19, and TailwindCSS.
 
-First, run the development server:
+## 🚀 Technologies
 
+- **Next.js 15** - React framework with App Router
+- **React 19** - Library for user interfaces
+- **TypeScript** - Typed superset of JavaScript
+- **TailwindCSS** - Utility-first CSS framework
+- **ESLint** - Linter for JavaScript/TypeScript code
+
+## 📋 Prerequisites
+
+- Node.js 18+ 
+- npm, yarn, pnpm or bun
+
+## 🛠️ Installation
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd Future-Tech-Blog
+
+# Install dependencies
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+## 🏃‍♂️ Running the Project
+
+### Development
 ```bash
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
+```bash
+npm run build
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Linting
+```bash
+npm run lint
+```
 
-## Learn More
+## 📁 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+Future-Tech-Blog/
+├── src/
+│   └── app/
+│       ├── favicon.ico
+│       ├── globals.css
+│       ├── layout.tsx
+│       └── page.tsx
+├── public/
+├── docs/
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+├── postcss.config.mjs
+├── eslint.config.mjs
+└── README.md
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔄 Development Workflow
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. Initial Setup
+- Clone the repository
+- Install dependencies
+- Configure environment variables (if needed)
 
-## Deploy on Vercel
+### 2. Git Workflow
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Branches
+- `main` - Main branch (production)
+- `develop` - Development branch
+- `feature/feature-name` - New features
+- `fix/bug-name` - Bug fixes
+- `hotfix/hotfix-name` - Urgent fixes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Development Process
+```bash
+# 1. Create new branch from develop
+git checkout develop
+git pull origin develop
+git checkout -b feature/new-feature
+
+# 2. Develop the feature
+# Make frequent and descriptive commits
+
+# 3. Before pushing, verify everything is ok
+npm run lint
+npm run build
+
+# 4. Push the branch
+git push origin feature/new-feature
+
+# 5. Open Pull Request to develop
+# 6. After approval, merge to develop
+# 7. Deploy to staging/testing
+# 8. After testing, merge develop -> main
+# 9. Deploy to production
+```
+
+### 3. Commit Standards
+
+Use [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: add new comments functionality
+fix: fix search system bug
+docs: update API documentation
+style: adjust code formatting
+refactor: refactor header component
+test: add tests for Button component
+chore: update dependencies
+```
+
+### 4. Code Review
+
+#### Pull Request Templates
+- The template used in the project is located at github/pull_request_template.md
+- For every opened pull request, this content should be pasted in the description
+- The template must be filled out when opening the PR
+
+
+#### File Structure
+```
+src/
+├── app/
+│   ├── (routes)/
+│   ├── components/
+│   ├── lib/
+│   ├── types/
+│   └── utils/
+```
+
+### 5. Testing
+
+```bash
+# Run tests (when implemented)
+npm run test
+
+# Tests in watch mode
+npm run test:watch
+
+# Coverage
+npm run test:coverage
+```
+
+### 6. Deployment
+
+#### Staging
+- Automatically deployed when merged to `develop`
+- URL: `https://staging-future-tech-blog.vercel.app`
+
+#### Production
+- Automatically deployed when merged to `main`
+- URL: `https://future-tech-blog.vercel.app`
+
+## 🐛 Reporting Bugs
+
+1. Check if the bug has already been reported
+2. Create an issue with:
+   - Clear description of the problem
+   - Steps to reproduce
+   - Expected vs actual behavior
+   - Screenshots (if applicable)
+   - Environment information
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'feat: add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is under the MIT license. See the `LICENSE` file for more details.
+
+## 📞 Contact
+
+- **Developer**: [Your Name]
+- **Email**: [your-email@example.com]
+- **LinkedIn**: [your-linkedin]
+
+## 🔗 Useful Links
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev)
+- [TailwindCSS Documentation](https://tailwindcss.com/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+
+---
+
+⭐ If this project helped you, consider giving it a star!
