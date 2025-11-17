@@ -10,10 +10,10 @@ test('homepage opens and displays content', async ({ page }) => {
 
 
   const html = await page.locator('html').count();
-  expect(html).toBeGreaterThan(0);
+  expect(html).toBe(1);
 
   const bodyExists = await page.locator('body').count();
-  expect(bodyExists).toBeGreaterThan(0);
+  expect(bodyExists).toBe(1);
 
   const title = await page.title();
   expect(title).toBeTruthy();
