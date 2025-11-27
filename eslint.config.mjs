@@ -2,7 +2,6 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 import react from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
 import tailwindcss from "eslint-plugin-tailwindcss";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -29,7 +28,6 @@ const eslintConfig = [
     files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: {
       react,
-      "react-hooks": reactHooks,
       tailwindcss,
     },
     settings: {
