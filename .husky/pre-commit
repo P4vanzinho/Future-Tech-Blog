@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+echo "🔍 Husky: Running pre-commit hook..."
+echo "🧪 Running all tests..."
+
+npm run test -- --run
+
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed! Commit aborted."
+  exit 1
+fi
+
+echo "✅ Tests passed!"
+echo "🔧 Running lint on staged files..."
+
+npx lint-staged
+
+if [ $? -ne 0 ]; then
+  echo "❌ Lint failed! Commit aborted."
+  exit 1
+fi
+
+echo "✅ Pre-commit hook completed successfully!"
+
