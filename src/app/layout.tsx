@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Kumbh_Sans } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/common/Header";
+import { ReactNode } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,11 +22,14 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${kumbhSans.variable}`}>
+      <body
+        className={`${inter.variable} ${kumbhSans.variable} bg-dark-08  font-sans `}
+      >
+        <Header />
         {children}
       </body>
     </html>
