@@ -5,9 +5,6 @@
   --font-sans: "Inter", system-ui, sans-serif;
   --font-display: "Kumbh Sans", "Inter", system-ui, sans-serif;
 
-  /* Disable all default colors - only use design system colors */
-  --color-*: initial;
-
   /* Absolute Colors - OKLCH */
   --color-white: oklch(100% 0 0);
   --color-black: oklch(0% 0 0);
