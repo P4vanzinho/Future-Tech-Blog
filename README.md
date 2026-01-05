@@ -12,7 +12,7 @@ A modern technology blog built with Next.js 15, React 19, and TailwindCSS.
 
 ## 📋 Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm, yarn, pnpm or bun
 
 ## 🛠️ Installation
@@ -33,6 +33,7 @@ pnpm install
 ## 🏃‍♂️ Running the Project
 
 ### Development
+
 ```bash
 npm run dev
 # or
@@ -44,17 +45,50 @@ pnpm dev
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
 ### Production Build
+
 ```bash
 npm run build
 npm run start
 ```
 
 ### Linting
+
 ```bash
 npm run lint
 ```
 
-## 📁 Project Structure
+## Code Quality Tools
+
+This project uses ESLint and Prettier to maintain code quality and consistency. Pre-commit hooks are configured to automatically check and format code before commits.
+
+### Available Commands
+
+- `npm run lint` - Run ESLint to check for code issues
+- `npm run lint:fix` - Run ESLint and automatically fix issues
+- `npm run format` - Format all files with Prettier
+- `npm run format:check` - Check if files are formatted correctly
+
+### Pre-commit Hooks
+
+Husky is configured to run pre-commit hooks that:
+
+- **Only process staged files** (files you've added with `git add`) for optimal performance
+- Run ESLint on TypeScript/JavaScript files
+- Format files with Prettier
+- **Block commits** if there are linting errors or formatting issues
+
+If a commit fails, you'll see clear error messages indicating what needs to be fixed. After fixing the issues, you can commit again.
+
+### For Developers
+
+When you clone this repository:
+
+1. Install dependencies: `npm install`
+2. The `prepare` script will automatically set up Husky hooks
+3. Before committing, you can manually run `npm run lint` and `npm run format:check` to verify your code
+4. The pre-commit hook will automatically format and lint your staged files
+
+## Learn More
 
 ```
 Future-Tech-Blog/
@@ -77,6 +111,7 @@ Future-Tech-Blog/
 ## 🔄 Development Workflow
 
 ### 1. Initial Setup
+
 - Clone the repository
 - Install dependencies
 - Configure environment variables (if needed)
@@ -84,6 +119,7 @@ Future-Tech-Blog/
 ### 2. Git Workflow
 
 #### Branches
+
 - `main` - Main branch (production)
 - `develop` - Development branch
 - `feature/feature-name` - New features
@@ -91,6 +127,7 @@ Future-Tech-Blog/
 - `hotfix/hotfix-name` - Urgent fixes
 
 #### Development Process
+
 ```bash
 # 1. Create new branch from develop
 git checkout develop
@@ -131,12 +168,13 @@ chore: update dependencies
 ### 4. Code Review
 
 #### Pull Request Templates
+
 - The template used in the project is located at github/pull_request_template.md
 - For every opened pull request, this content should be pasted in the description
 - The template must be filled out when opening the PR
 
-
 #### File Structure
+
 ```
 src/
 ├── app/
@@ -163,10 +201,12 @@ npm run test:coverage
 ### 6. Deployment
 
 #### Staging
+
 - Automatically deployed when merged to `develop`
 - URL: `https://staging-future-tech-blog.vercel.app`
 
 #### Production
+
 - Automatically deployed when merged to `main`
 - URL: `https://future-tech-blog.vercel.app`
 
