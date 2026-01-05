@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { Inter, Kumbh_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/common/Header";
-import { ReactNode } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
