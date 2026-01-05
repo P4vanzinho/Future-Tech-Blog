@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${kumbhSans.variable} bg-dark-08  font-sans `}
+        className={`${inter.variable} ${kumbhSans.variable} bg-dark-08 font-sans`}
       >
         <Header />
         {children}
