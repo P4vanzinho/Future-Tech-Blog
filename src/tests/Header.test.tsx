@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { Header } from "./Header";
+import { Header } from "../components/block/Header";
 
 describe("Header", () => {
   it("should render correctly", () => {
@@ -10,19 +10,12 @@ describe("Header", () => {
     expect(header).toBeInTheDocument();
   });
 
-  it("should display the FutureTech logo text", () => {
+  it("should render the logo svg", () => {
     render(<Header />);
 
-    const logo = screen.getByText("FutureTech");
-    expect(logo).toBeInTheDocument();
-    expect(logo).toHaveClass("text-white", "font-display", "font-bold");
-  });
-
-  it("should render the PlusIcon", () => {
-    render(<Header />);
-
-    const icon = document.querySelector("svg");
-    expect(icon).toBeInTheDocument();
+    const header = screen.getByRole("banner");
+    const logoSvg = header.querySelector("svg");
+    expect(logoSvg).toBeInTheDocument();
   });
 
   it("should have responsive classes for mobile", () => {
@@ -35,7 +28,7 @@ describe("Header", () => {
       "flex",
       "items-center",
       "justify-center",
-      "gap-2",
+      "gap-2"
     );
   });
 
@@ -47,26 +40,18 @@ describe("Header", () => {
     expect(container).toHaveClass("lg:gap-3", "lg:pl-20", "lg:justify-start");
   });
 
-  it("should have responsive text size classes", () => {
+  it("should have responsive logo size classes", () => {
     render(<Header />);
 
-    const logo = screen.getByText("FutureTech");
-
-    expect(logo).toHaveClass("text-xs", "lg:text-sm", "2xl:text-[1.125rem]");
-  });
-
-  it("should have responsive icon size classes", () => {
-    render(<Header />);
-
-    const icon = document.querySelector("svg");
+    const icon = screen.getByRole("banner").querySelector("svg");
 
     expect(icon).toHaveClass(
-      "w-[2.188rem]",
       "h-[2.188rem]",
-      "lg:w-10",
+      "w-[7.875rem]",
       "lg:h-10",
-      "2xl:w-[3.125rem]",
+      "lg:w-36",
       "2xl:h-[3.125rem]",
+      "2xl:w-[11.25rem]"
     );
   });
 
@@ -84,7 +69,7 @@ describe("Header", () => {
     const header = screen.getByRole("banner");
     const container = header.querySelector("div");
 
-    expect(header).toHaveClass("w-full", "pb-5", "flex", "flex-col");
+    expect(header).toHaveClass("w-full", "flex", "flex-col");
     expect(container).toHaveClass("py-5");
   });
 });

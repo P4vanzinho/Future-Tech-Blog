@@ -1,2 +1,1 @@
-export { PlusIcon } from "./PlusIcon";
-export { ArrowUpRightIcon } from "./ArrowUpRightIcon";
+export { FutureTechIcon } from "./FutureTechIcon";
