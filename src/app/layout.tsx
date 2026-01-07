@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Inter, Kumbh_Sans } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/block/Header";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,7 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${kumbhSans.variable}`}>
+      <body
+        className={`${inter.variable} ${kumbhSans.variable} bg-dark-08 font-sans`}
+      >
+        <Header />
         {children}
       </body>
     </html>

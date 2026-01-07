@@ -202,8 +202,8 @@ npm run test:coverage
 
 #### Staging
 
-- Automatically deployed when merged to `develop`
-- URL: `https://staging-future-tech-blog.vercel.app`
+- Automatically deployed when merged to `dev`
+- URL: `https://dev-future-tech-blog.vercel.app`
 
 #### Production
 

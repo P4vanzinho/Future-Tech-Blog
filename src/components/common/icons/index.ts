@@ -1,0 +1,1 @@
+export { FutureTechIcon } from "./FutureTechIcon";
