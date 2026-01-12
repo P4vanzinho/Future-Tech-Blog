@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { add, formatTitle } from "./utils/example.js";
+import { formatTitle } from "../utils/formatter";
+import { add } from "../utils/math";
 
 describe("example utility functions", () => {
   describe("add", () => {
