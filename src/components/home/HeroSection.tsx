@@ -1,4 +1,4 @@
-export function HeroSection() {
+export function IntroSection() {
   return (
     <>
       <div className="flex flex-col gap-[0.875rem] py-10 lg:hidden lg:pt-20 2xl:pt-[8.125rem]">

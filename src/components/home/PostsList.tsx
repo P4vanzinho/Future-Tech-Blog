@@ -5,7 +5,7 @@ import { Post } from "@/components/blog/Post";
 import { PostSkeleton } from "@/components/blog/PostSkeleton";
 import { useRegularPosts } from "@/hooks/usePosts";
 
-export function PostsList() {
+export function FeaturedPostsListSection() {
   const { data: regularPosts, isLoading } = useRegularPosts();
 
   if (isLoading) {
@@ -20,7 +20,7 @@ export function PostsList() {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row lg:items-stretch lg:gap-8">
+    <section className="flex flex-col lg:flex-row lg:items-stretch lg:gap-8">
       {regularPosts?.map((post, index) => (
         <div key={post.id} className="min-w-0 flex-1">
           <Post post={post} />
@@ -29,6 +29,6 @@ export function PostsList() {
           )}
         </div>
       ))}
-    </div>
+    </section>
   );
 }
