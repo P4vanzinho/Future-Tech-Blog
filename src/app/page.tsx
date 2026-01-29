@@ -1,3 +1,19 @@
+import { Separator } from "@/components/common/Separator";
+import { LastFeaturedPostSection } from "@/components/home/FeaturedPostSection";
+import { FeaturedPostsListSection } from "@/components/home/PostsList";
+import { IntroSection } from "@/components/home/HeroSection";
+
 export default function Home() {
-  return <main></main>;
+  return (
+    <main className="px-4 md:px-5 lg:px-20 2xl:px-40">
+      <div>
+        <Separator />
+        <IntroSection />
+        <LastFeaturedPostSection />
+        <Separator />
+        <FeaturedPostsListSection />
+        <Separator />
+      </div>
+    </main>
+  );
 }
