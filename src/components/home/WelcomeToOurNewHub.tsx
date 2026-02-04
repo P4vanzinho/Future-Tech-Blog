@@ -2,7 +2,7 @@ import { LinkButton } from "../blog/LinkButton";
 
 export function WelcomeToOurNewHub() {
   return (
-    <section className="bg-dark-10 -mx-4 py-10 md:-mx-5 lg:-mx-20 lg:py-[3.75rem] 2xl:-mx-40 2xl:py-[5rem]">
+    <section className="bg-dark-10 -mx-4 md:-mx-5 lg:-mx-20 2xl:-mx-40">
       <div className="flex flex-col px-4 py-10 lg:flex-row lg:px-20 lg:py-20 2xl:px-40 2xl:py-30">
         <div className="flex w-full flex-col justify-center gap-[30px] lg:flex-row lg:justify-between lg:gap-0">
           <div className="flex flex-col gap-[10px] 2xl:gap-4">
