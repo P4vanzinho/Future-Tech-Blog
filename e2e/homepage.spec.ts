@@ -17,3 +17,20 @@ test("homepage opens and displays content", async ({ page }) => {
   expect(title).toBeTruthy();
   expect(title.length).toBeGreaterThan(0);
 });
+
+test("homepage displays Welcome to Our News Hub section", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState("domcontentloaded");
+
+  await expect(
+    page.getByRole("heading", { name: "Discover the World of Headlines" })
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole("heading", { name: "Welcome to Our News Hub" })
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole("link", { name: "View All News" })
+  ).toBeVisible();
+});
