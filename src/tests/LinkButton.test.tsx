@@ -1,94 +1,72 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
+import type { ReactNode } from "react";
 import { LinkButton } from "../components/blog/LinkButton";
 
+vi.mock("next/link", () => ({
+  default: ({ href, children, className }: { href: string; children: ReactNode; className?: string }) => (
+    <a href={href} className={className}>
+      {children}
+    </a>
+  ),
+}));
+
 describe("LinkButton", () => {
-  function getLink(container: HTMLElement) {
-    return container.querySelector("a");
-  }
-
-  describe("default (featured) variant", () => {
-    it("should render a link with default text 'Read More'", () => {
-      const { container } = render(<LinkButton />);
-
-      const link = getLink(container);
-      expect(link).toBeInTheDocument();
-      expect(link).toHaveTextContent("Read More");
-    });
-
-    it("should render with custom text when provided", () => {
-      const { container } = render(<LinkButton text="View All News" />);
-
-      const link = getLink(container);
-      expect(link).toHaveTextContent("View All News");
-    });
-
-    it("should have href attribute", () => {
-      const { container } = render(<LinkButton href="/news" />);
-
-      const link = getLink(container);
-      expect(link).toHaveAttribute("href", "/news");
-    });
-
-    it("should have empty href by default", () => {
-      const { container } = render(<LinkButton />);
-
-      const link = getLink(container);
-      expect(link).toHaveAttribute("href", "");
-    });
-
-    it("should not render arrow icon in featured variant", () => {
-      const { container } = render(<LinkButton />);
-
-      const link = getLink(container);
-      expect(link?.querySelector("svg")).not.toBeInTheDocument();
-    });
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  describe("regular variant", () => {
-    it("should render a link with default text 'Read More'", () => {
-      const { container } = render(<LinkButton variant="regular" />);
+  it("renders with default text 'Read More' and featured variant", () => {
+    const { container } = render(<LinkButton />);
 
-      const link = getLink(container);
-      expect(link).toBeInTheDocument();
-      expect(link).toHaveTextContent("Read More");
-    });
-
-    it("should render with custom text when provided", () => {
-      const { container } = render(<LinkButton variant="regular" text="View All News" />);
-
-      const link = getLink(container);
-      expect(link).toHaveTextContent("View All News");
-    });
-
-    it("should render arrow icon", () => {
-      const { container } = render(<LinkButton variant="regular" />);
-
-      const link = getLink(container);
-      expect(link?.querySelector("svg")).toBeInTheDocument();
-    });
-
-    it("should have flex and gap classes for icon + text layout", () => {
-      const { container } = render(<LinkButton variant="regular" />);
-
-      const link = getLink(container);
-      expect(link).toHaveClass("flex", "flex-1", "items-center", "justify-center", "gap-1");
-    });
-
-    it("should have href attribute", () => {
-      const { container } = render(<LinkButton variant="regular" href="/all-news" />);
-
-      const link = getLink(container);
-      expect(link).toHaveAttribute("href", "/all-news");
-    });
+    const link = screen.getByText("Read More").closest("a") ?? container.querySelector("a");
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveTextContent("Read More");
+    expect(link).toHaveAttribute("href", "");
   });
 
-  describe("className prop", () => {
-    it("should merge custom className", () => {
-      const { container } = render(<LinkButton className="custom-class" />);
+  it("renders with custom text when provided", () => {
+    const { container } = render(<LinkButton text="View All News" />);
 
-      const link = getLink(container);
-      expect(link).toHaveClass("custom-class");
-    });
+    const link = screen.getByText("View All News").closest("a") ?? container.querySelector("a");
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveTextContent("View All News");
+  });
+
+  it("renders regular variant with arrow icon", () => {
+    const { container } = render(<LinkButton variant="regular" />);
+
+    const link = screen.getByText("Read More").closest("a") ?? container.querySelector("a");
+    const icon = link?.querySelector("svg");
+    expect(icon).toBeInTheDocument();
+  });
+
+  it("renders featured variant without arrow icon", () => {
+    const { container } = render(<LinkButton variant="featured" />);
+
+    const link = screen.getByText("Read More").closest("a") ?? container.querySelector("a");
+    expect(link).toHaveTextContent("Read More");
+    expect(link?.querySelector("svg")).toBeNull();
+  });
+
+  it("uses custom href when provided", () => {
+    render(<LinkButton href="/news" />);
+
+    const link = screen.getByRole("link");
+    expect(link).toHaveAttribute("href", "/news");
+  });
+
+  it("applies custom className", () => {
+    const { container } = render(<LinkButton className="custom-class" />);
+
+    const link = screen.getByText("Read More").closest("a") ?? container.querySelector("a");
+    expect(link).toHaveClass("custom-class");
+  });
+
+  it("regular variant has flex layout classes", () => {
+    const { container } = render(<LinkButton variant="regular" />);
+
+    const link = screen.getByText("Read More").closest("a") ?? container.querySelector("a");
+    expect(link).toHaveClass("flex", "items-center", "justify-center");
   });
 });

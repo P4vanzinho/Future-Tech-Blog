@@ -1,11 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { HeroSection } from "../components/home/HeroSection";
+import { IntroSection } from "../components/home/HeroSection";
 
-describe("Today's Headlines Section", () => {
+describe("Today's Headlines Section (IntroSection)", () => {
   describe("Mobile Version", () => {
     it("should render the mobile title with correct text", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const mobileTitle = screen.getByText("Today's Headlines: Stay Informed", {
         selector: "h1",
@@ -16,7 +16,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the mobile title with correct typography classes", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const mobileTitle = screen.getByText("Today's Headlines: Stay Informed", {
         selector: "h1",
@@ -33,7 +33,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the mobile description with correct text", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const descriptions = screen.getAllByText(
         /Explore the latest news from around the world/i
@@ -53,7 +53,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the mobile description as a paragraph element", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const descriptions = screen.getAllByText(
         /Explore the latest news from around the world/i
@@ -64,7 +64,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the mobile description with correct typography classes", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const descriptions = screen.getAllByText(
         /Explore the latest news from around the world/i
@@ -80,7 +80,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should have correct container structure for mobile version", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const mobileTitle = screen.getByText("Today's Headlines: Stay Informed", {
         selector: "h1",
@@ -92,7 +92,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should have correct layout classes for mobile container", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const mobileTitle = screen.getByText("Today's Headlines: Stay Informed", {
         selector: "h1",
@@ -110,7 +110,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should be hidden on large screens (lg:hidden)", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const mobileTitle = screen.getByText("Today's Headlines: Stay Informed", {
         selector: "h1",
@@ -123,7 +123,7 @@ describe("Today's Headlines Section", () => {
 
   describe("Desktop Version", () => {
     it("should render the desktop title first part with correct text", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart1 = screen.getByText("Today's Headlines: Stay");
 
@@ -132,7 +132,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the desktop title first part as a span element", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart1 = screen.getByText("Today's Headlines: Stay");
 
@@ -140,7 +140,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the desktop title first part with correct typography classes", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart1 = screen.getByText("Today's Headlines: Stay");
 
@@ -155,7 +155,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the desktop title second part with correct text", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart2 = screen.getByText("Informed");
 
@@ -164,7 +164,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the desktop title second part as a span element", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart2 = screen.getByText("Informed");
 
@@ -172,7 +172,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the desktop title second part with correct typography classes", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart2 = screen.getByText("Informed");
 
@@ -187,7 +187,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the desktop description with correct text", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const descriptions = screen.getAllByText(
         /Explore the latest news from around the world/i
@@ -201,7 +201,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the desktop description as a span element", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const descriptions = screen.getAllByText(
         /Explore the latest news from around the world/i
@@ -212,7 +212,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the desktop description with correct typography classes", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const descriptions = screen.getAllByText(
         /Explore the latest news from around the world/i
@@ -231,7 +231,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should have correct container structure for desktop version", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart1 = screen.getByText("Today's Headlines: Stay");
       const desktopContainer = desktopTitlePart1.parentElement;
@@ -241,7 +241,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should have correct layout classes for desktop container", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart1 = screen.getByText("Today's Headlines: Stay");
       const desktopContainer = desktopTitlePart1.parentElement;
@@ -257,7 +257,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should have correct spacing classes for desktop container", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart1 = screen.getByText("Today's Headlines: Stay");
       const desktopContainer = desktopTitlePart1.parentElement;
@@ -266,7 +266,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should have correct layout structure for desktop title section", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart1 = screen.getByText("Today's Headlines: Stay");
       const desktopContainer = desktopTitlePart1.parentElement;
@@ -276,7 +276,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should have correct flex layout for desktop title and description container", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart2 = screen.getByText("Informed");
       const flexContainer = desktopTitlePart2.parentElement;
@@ -290,7 +290,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should contain both title parts and description in the flex container", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart2 = screen.getByText("Informed");
       const descriptions = screen.getAllByText(
@@ -307,7 +307,7 @@ describe("Today's Headlines Section", () => {
 
   describe("Responsive Behavior", () => {
     it("should render both mobile and desktop versions simultaneously", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const mobileTitle = screen.getByText("Today's Headlines: Stay Informed", {
         selector: "h1",
@@ -319,7 +319,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should have mobile version hidden on large screens", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const mobileTitle = screen.getByText("Today's Headlines: Stay Informed", {
         selector: "h1",
@@ -330,7 +330,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should have desktop version hidden on small screens", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart1 = screen.getByText("Today's Headlines: Stay");
       const desktopContainer = desktopTitlePart1.parentElement;
@@ -341,7 +341,7 @@ describe("Today's Headlines Section", () => {
 
   describe("Content Accuracy", () => {
     it("should render the exact title text in mobile version", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const mobileTitle = screen.getByText("Today's Headlines: Stay Informed", {
         selector: "h1",
@@ -351,7 +351,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should split the title correctly in desktop version", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const desktopTitlePart1 = screen.getByText("Today's Headlines: Stay");
       const desktopTitlePart2 = screen.getByText("Informed");
@@ -361,7 +361,7 @@ describe("Today's Headlines Section", () => {
     });
 
     it("should render the same description text in both versions", () => {
-      render(<HeroSection />);
+      render(<IntroSection />);
 
       const descriptions = screen.getAllByText(
         /Explore the latest news from around the world/i

@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { WelcomeToOurNewHub } from "../components/home/WelcomeToOurNewHub";
+import { WelcomeToOurNewHubSection } from "../components/home/WelcomeToOurNewHub";
 
 describe("Welcome to Our News Hub Section", () => {
   it("should render the section", () => {
-    render(<WelcomeToOurNewHub />);
+    render(<WelcomeToOurNewHubSection />);
 
     const heading = screen.getByRole("heading", {
       level: 1,
@@ -17,7 +17,7 @@ describe("Welcome to Our News Hub Section", () => {
   });
 
   it("should render the badge with text 'Welcome to Our News Hub'", () => {
-    render(<WelcomeToOurNewHub />);
+    render(<WelcomeToOurNewHubSection />);
 
     const badge = screen.getByText("Welcome to Our News Hub", {
       selector: "h2",
@@ -28,7 +28,7 @@ describe("Welcome to Our News Hub Section", () => {
   });
 
   it("should render the main heading 'Discover the World of Headlines'", () => {
-    render(<WelcomeToOurNewHub />);
+    render(<WelcomeToOurNewHubSection />);
 
     const heading = screen.getByText("Discover the World of Headlines", {
       selector: "h1",
@@ -39,7 +39,7 @@ describe("Welcome to Our News Hub Section", () => {
   });
 
   it("should render the View All News link button", () => {
-    render(<WelcomeToOurNewHub />);
+    render(<WelcomeToOurNewHubSection />);
 
     const linkText = screen.getByText("View All News");
     const link = linkText.closest("a");
@@ -49,7 +49,7 @@ describe("Welcome to Our News Hub Section", () => {
   });
 
   it("should have full-bleed section classes (negative margins)", () => {
-    render(<WelcomeToOurNewHub />);
+    render(<WelcomeToOurNewHubSection />);
 
     const heading = screen.getByRole("heading", {
       level: 1,
@@ -61,9 +61,11 @@ describe("Welcome to Our News Hub Section", () => {
   });
 
   it("should have correct layout structure: badge, title, and button", () => {
-    render(<WelcomeToOurNewHub />);
+    render(<WelcomeToOurNewHubSection />);
 
-    expect(screen.getByText("Welcome to Our News Hub", { selector: "h2" })).toBeInTheDocument();
+    expect(
+      screen.getByText("Welcome to Our News Hub", { selector: "h2" })
+    ).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Discover the World of Headlines"
     );
