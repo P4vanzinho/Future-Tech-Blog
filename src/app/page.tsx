@@ -2,7 +2,8 @@ import { Separator } from "@/components/common/Separator";
 import { LastFeaturedPostSection } from "@/components/home/FeaturedPostSection";
 import { FeaturedPostsListSection } from "@/components/home/PostsList";
 import { IntroSection } from "@/components/home/HeroSection";
-import { WelcomeToOurNewHub } from "@/components/home/WelcomeToOurNewHub";
+import { WelcomeToOurNewHubSection } from "@/components/home/WelcomeToOurNewHub";
+import { ArticlesPreviewByCategorySection } from "@/components/home/ArticlesPreviewByCategorySection";
 
 export default function Home() {
   return (
@@ -14,8 +15,9 @@ export default function Home() {
         <Separator />
         <FeaturedPostsListSection />
         <Separator />
-        <WelcomeToOurNewHub />
+        <WelcomeToOurNewHubSection />
         <Separator />
+        <ArticlesPreviewByCategorySection />
       </div>
     </main>
   );
