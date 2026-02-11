@@ -8,9 +8,10 @@ import { formatNumber } from "@/utils/formatter";
 
 interface PostProps {
   post: PostType;
+  onLike?: (postId: string) => void;
 }
 
-export function Post({ post }: PostProps) {
+export function Post({ post, onLike }: PostProps) {
   return (
     <div className="flex flex-col py-10 lg:h-full lg:py-[3.75rem] 2xl:py-[5rem]">
       <Image
@@ -37,8 +38,15 @@ export function Post({ post }: PostProps) {
       <div className="flex items-center justify-between gap-4 lg:mt-auto">
         <div className="flex items-center gap-2 2xl:gap-[0.625rem]">
           <SocialStatButton
-            icon={<LikeIcon className="h-5 w-5 2xl:h-6 2xl:w-6" />}
+            icon={
+              <LikeIcon
+                filled={post.isLiked}
+                className="h-5 w-5 2xl:h-6 2xl:w-6"
+              />
+            }
             value={formatNumber(post.likes)}
+            transparent={!post.isLiked}
+            onClick={onLike ? () => onLike(post.id) : undefined}
           />
           <SocialStatButton
             icon={<DirectIcon className="h-5 w-5 2xl:h-6 2xl:w-6" />}

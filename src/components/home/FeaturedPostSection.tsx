@@ -12,7 +12,7 @@ import { LinkButton } from "../blog/LinkButton";
 import { DirectIcon } from "../common/icons/DirectIcon";
 
 export function LastFeaturedPostSection() {
-  const { data: post, isLoading } = useFeaturedPost();
+  const { data: post, isLoading, toggleLike } = useFeaturedPost();
 
   if (isLoading) return <FeaturedPostSkeleton />;
   if (!post) return null;
@@ -58,8 +58,15 @@ export function LastFeaturedPostSection() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <SocialStatButton
-                icon={<LikeIcon className="h-5 w-5 2xl:h-6 2xl:w-6" />}
+                icon={
+                  <LikeIcon
+                    filled={post.isLiked}
+                    className="text-grey-60 h-5 w-5 2xl:h-6 2xl:w-6"
+                  />
+                }
                 value={formatNumber(post.likes)}
+                transparent={!post.isLiked}
+                onClick={() => post && toggleLike(post.id)}
               />
               <SocialStatButton
                 icon={<DirectIcon className="h-5 w-5 2xl:h-6 2xl:w-6" />}
