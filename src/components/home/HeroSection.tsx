@@ -11,7 +11,7 @@ export function IntroSection() {
           stories. Discover the world through our news coverage.
         </p>
       </div>
-      <div className="hidden w-full flex-col gap-5 pb-[6.25rem] lg:flex lg:pt-20 2xl:pt-[8.125rem]">
+      <div className="hidden w-full flex-col gap-5 pb-[6.25rem] lg:flex lg:pt-20 2xl:pt-[8.125rem] 2xl:pb-37">
         <span className="font-display text-[3.438rem] leading-[130%] font-medium text-white 2xl:text-[5rem]">
           Today&apos;s Headlines: Stay
         </span>

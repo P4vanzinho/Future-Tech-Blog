@@ -3,7 +3,7 @@ import { Post as PostType } from "@/types/post";
 import { DirectIcon } from "@/components/common/icons/DirectIcon";
 import { LikeIcon } from "@/components/common/icons/LikeIcon";
 import { SocialStatButton } from "./SocialStatButton";
-import { ReadMoreButton } from "./ReadMoreButton";
+import { LinkButton } from "./LinkButton";
 import { formatNumber } from "@/utils/formatter";
 
 interface PostProps {
@@ -45,7 +45,7 @@ export function Post({ post }: PostProps) {
             value={post.shares.toString()}
           />
         </div>
-        <ReadMoreButton variant="regular" />
+        <LinkButton variant="regular" />
       </div>
     </div>
   );
