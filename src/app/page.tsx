@@ -8,17 +8,15 @@ import { ArticlesPreviewByCategorySection } from "@/components/home/ArticlesPrev
 export default function Home() {
   return (
     <main className="px-4 md:px-5 lg:px-20 2xl:px-40">
-      <div>
-        <Separator />
-        <IntroSection />
-        <LastFeaturedPostSection />
-        <Separator />
-        <FeaturedPostsListSection />
-        <Separator />
-        <WelcomeToOurNewHubSection />
-        <Separator />
-        <ArticlesPreviewByCategorySection />
-      </div>
+      <Separator />
+      <IntroSection />
+      <LastFeaturedPostSection />
+      <Separator />
+      <FeaturedPostsListSection />
+      <Separator />
+      <WelcomeToOurNewHubSection />
+      <Separator />
+      <ArticlesPreviewByCategorySection />
     </main>
   );
 }
