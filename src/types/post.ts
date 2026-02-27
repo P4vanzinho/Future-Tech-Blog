@@ -9,7 +9,10 @@ export interface Post {
   category: string;
   publicationDate?: string;
   author?: string;
+  authorImage?: StaticImageData;
   likes: number;
+  comments?: number;
   shares: number;
+  isLiked?: boolean;
   isFeatured?: boolean;
 }
