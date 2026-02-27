@@ -1,13 +1,12 @@
-import Link, { LinkProps } from "next/link";
-import { AnchorHTMLAttributes } from "react";
+import Link from "next/link";
+import { ComponentProps } from "react";
 import { ArrowRightIcon } from "@/components/common/icons/ArrowRightIcon";
 import { cn } from "@/lib/utils";
 
-interface LinkButtonProps
-  extends LinkProps, Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
+type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: "featured" | "regular";
   text?: string;
-}
+};
 
 export function LinkButton({
   variant = "featured",
