@@ -4,6 +4,7 @@ import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
+import { forwardRef } from "react";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -17,7 +18,7 @@ type CarouselProps = {
   setApi?: (api: CarouselApi) => void;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
+const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
   (
     {
       opts,
@@ -75,7 +76,7 @@ function useCarousel() {
   return context;
 }
 
-const CarouselContent = React.forwardRef<
+const CarouselContent = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, style, ...props }, ref) => (
@@ -92,7 +93,7 @@ const CarouselContent = React.forwardRef<
 ));
 CarouselContent.displayName = "CarouselContent";
 
-const CarouselItem = React.forwardRef<
+const CarouselItem = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (

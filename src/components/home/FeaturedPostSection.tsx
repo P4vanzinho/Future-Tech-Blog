@@ -73,7 +73,10 @@ export function LastFeaturedPostSection() {
                 value={post.shares.toString()}
               />
             </div>
-            <LinkButton className="2xl:px-[1.5rem] 2xl:py-[1.125rem]" />
+            <LinkButton
+              className="2xl:px-[1.5rem] 2xl:py-[1.125rem]"
+              href={`/posts/${post.id}`}
+            />
           </div>
         </div>
       </div>

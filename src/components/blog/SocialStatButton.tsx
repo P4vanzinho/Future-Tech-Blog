@@ -3,9 +3,7 @@ import { ReactNode } from "react";
 interface SocialStatButtonProps {
   icon: ReactNode;
   value: string;
-  /** When true, background and border are transparent (e.g. for like button when not liked). */
   transparent?: boolean;
-  /** When provided, renders as button and calls on click. */
   onClick?: () => void;
 }
 

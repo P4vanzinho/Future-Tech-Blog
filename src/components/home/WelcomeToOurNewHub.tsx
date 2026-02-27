@@ -16,7 +16,7 @@ export function WelcomeToOurNewHubSection() {
             </h1>
           </div>
           <div className="flex w-full items-center justify-center lg:max-w-[9.5625rem] 2xl:max-w-[12.0625rem]">
-            <LinkButton variant="regular" text="View All News" />
+            <LinkButton variant="regular" text="View All News" href="/news" />
           </div>
         </div>
       </div>

@@ -23,6 +23,7 @@ export function usePosts() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Post[] | null>(null);
 
+  // eslint-disable-next-line no-restricted-syntax
   useEffect(() => {
     const timer = setTimeout(() => {
       setData([...mockPosts]);

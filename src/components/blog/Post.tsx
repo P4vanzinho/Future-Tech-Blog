@@ -53,7 +53,7 @@ export function Post({ post, onLike }: PostProps) {
             value={post.shares.toString()}
           />
         </div>
-        <LinkButton variant="regular" />
+        <LinkButton variant="regular" href={`/posts/${post.id}`} />
       </div>
     </div>
   );

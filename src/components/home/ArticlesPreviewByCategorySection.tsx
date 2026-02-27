@@ -68,7 +68,7 @@ export function ArticlesPreviewByCategorySection() {
                   </div>
                 </div>
                 <div className="flex items-center md:hidden">
-                  <LinkButton variant="regular" />
+                  <LinkButton variant="regular" href={`/posts/${post.id}`} />
                 </div>
               </div>
 
@@ -112,7 +112,7 @@ export function ArticlesPreviewByCategorySection() {
               </div>
 
               <div className="hidden items-center justify-end md:flex md:justify-self-end">
-                <LinkButton variant="regular" />
+                <LinkButton variant="regular" href={`/posts/${post.id}`} />
               </div>
             </div>
             <Separator />
