@@ -19,13 +19,18 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@payloadcms/db-sqlite": "^3.79.0",
+    "@payloadcms/next": "^3.79.0",
+    "@payloadcms/richtext-lexical": "^3.79.0",
     "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
-    "next": "^16.1.6",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "next": "^16.2.0-canary.10",
+    "payload": "^3.79.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.34.5",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
