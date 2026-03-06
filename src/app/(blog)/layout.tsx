@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${kumbhSans.variable} overflow-x-hidden bg-dark-08 font-sans`}
+        className={`${inter.variable} ${kumbhSans.variable} bg-dark-08 overflow-x-hidden font-sans`}
       >
         <Header />
         {children}
