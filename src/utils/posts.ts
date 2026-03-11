@@ -1,8 +1,8 @@
 import { Post } from "@/types/post";
-import { getOrigin } from "./browser";
 
 export function getPostUrl(slug: string, baseUrl?: string): string {
-  const origin = baseUrl ?? getOrigin();
+  const origin =
+    baseUrl ?? (typeof window !== "undefined" ? window.location.origin : "");
   return `${origin}/posts/${slug}`;
 }
 

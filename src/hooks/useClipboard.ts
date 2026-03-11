@@ -4,6 +4,7 @@ interface UseClipboardReturn {
   copied: boolean;
   copyToClipboard: (text: string) => Promise<boolean>;
   error: string | null;
+  buttonText: string;
 }
 
 export function useClipboard(resetDelay = 2000): UseClipboardReturn {
@@ -29,5 +30,7 @@ export function useClipboard(resetDelay = 2000): UseClipboardReturn {
     [resetDelay]
   );
 
-  return { copied, copyToClipboard, error };
+  const buttonText = error ? "Failed!" : copied ? "Copied!" : "Copy Link";
+
+  return { copied, copyToClipboard, error, buttonText };
 }

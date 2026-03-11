@@ -89,7 +89,7 @@ describe("SharePopover", () => {
       });
       expect(linkedInLink).toHaveAttribute(
         "href",
-        expect.stringContaining("linkedin.com/shareArticle")
+        expect.stringContaining("linkedin.com/sharing/share-offsite")
       );
       expect(linkedInLink).toHaveAttribute("target", "_blank");
       expect(linkedInLink).toHaveAttribute("rel", "noopener noreferrer");

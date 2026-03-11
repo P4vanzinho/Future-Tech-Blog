@@ -21,28 +21,11 @@ interface SharePopoverProps {
 
 export function SharePopover({ url, title, shareCount }: SharePopoverProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { links, canNativeShare, nativeShare } = useShareLinks(url, title);
-  const { copied, copyToClipboard, error: copyError } = useClipboard();
+  const links = useShareLinks(url, title);
+  const { copyToClipboard, error: copyError, buttonText } = useClipboard();
 
   const handleCopyLink = () => {
     copyToClipboard(url);
-  };
-
-  const handleTriggerClick = async () => {
-    if (canNativeShare) {
-      const shared = await nativeShare();
-      if (!shared) {
-        setIsOpen(true);
-      }
-    } else {
-      setIsOpen(true);
-    }
-  };
-
-  const getCopyButtonText = (): string => {
-    if (copyError) return "Failed!";
-    if (copied) return "Copied!";
-    return "Copy Link";
   };
 
   return (
@@ -50,8 +33,7 @@ export function SharePopover({ url, title, shareCount }: SharePopoverProps) {
       <PopoverTrigger asChild>
         <button
           type="button"
-          onClick={handleTriggerClick}
-          className="flex cursor-pointer items-center gap-1 rounded-full border border-transparent bg-transparent px-[0.875rem] py-[0.375rem] transition-opacity hover:opacity-80 2xl:px-[1rem] 2xl:py-[0.5rem]"
+          className="border-dark-15 bg-dark-10 flex cursor-pointer items-center gap-1 rounded-full border px-[0.875rem] py-[0.375rem] transition-opacity hover:opacity-80 2xl:px-[1rem] 2xl:py-[0.5rem]"
           aria-label="Share this article"
         >
           <DirectIcon className="text-grey-60 h-5 w-5 2xl:h-6 2xl:w-6" />
@@ -85,7 +67,7 @@ export function SharePopover({ url, title, shareCount }: SharePopoverProps) {
           <button
             type="button"
             onClick={handleCopyLink}
-            className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors hover:text-white ${
+            className={`flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors hover:text-white ${
               copyError
                 ? "text-red-400 hover:bg-red-900/20"
                 : "text-grey-60 hover:bg-dark-15"
@@ -93,7 +75,7 @@ export function SharePopover({ url, title, shareCount }: SharePopoverProps) {
             aria-label="Copy link to clipboard"
           >
             <CopyLinkIcon className="h-4 w-4" />
-            <span aria-live="polite">{getCopyButtonText()}</span>
+            <span aria-live="polite">{buttonText}</span>
           </button>
         </div>
       </PopoverContent>
