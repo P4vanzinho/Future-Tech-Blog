@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { Post as PostType } from "@/types/post";
-import { DirectIcon } from "@/components/common/icons/DirectIcon";
 import { LikeIcon } from "@/components/common/icons/LikeIcon";
 import { SocialStatButton } from "./SocialStatButton";
+import { SharePopover } from "./SharePopover";
 import { LinkButton } from "./LinkButton";
 import { formatNumber } from "@/utils/formatter";
+import { getPostUrl } from "@/utils/posts";
 
 interface PostProps {
   post: PostType;
@@ -48,12 +49,13 @@ export function Post({ post, onLike }: PostProps) {
             transparent={!post.isLiked}
             onClick={onLike ? () => onLike(post.id) : undefined}
           />
-          <SocialStatButton
-            icon={<DirectIcon className="h-5 w-5 2xl:h-6 2xl:w-6" />}
-            value={post.shares.toString()}
+          <SharePopover
+            url={getPostUrl(post.slug)}
+            title={post.title}
+            shareCount={post.shares}
           />
         </div>
-        <LinkButton variant="regular" href={`/posts/${post.id}`} />
+        <LinkButton variant="regular" href={`/posts/${post.slug}`} />
       </div>
     </div>
   );

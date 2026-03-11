@@ -1,4 +1,10 @@
 import { Post } from "@/types/post";
+import { getOrigin } from "./browser";
+
+export function getPostUrl(slug: string, baseUrl?: string): string {
+  const origin = baseUrl ?? getOrigin();
+  return `${origin}/posts/${slug}`;
+}
 
 const parseDate = (dateString?: string): Date => {
   if (!dateString) return new Date(0);
