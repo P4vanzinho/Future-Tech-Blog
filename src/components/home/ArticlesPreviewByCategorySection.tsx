@@ -8,10 +8,11 @@ import Image from "next/image";
 import defaultUserImage from "../../../public/mocks/imageUser.png";
 import { LinkButton } from "../blog/LinkButton";
 import { SocialStatButton } from "../blog/SocialStatButton";
+import { SharePopover } from "../blog/SharePopover";
 import { CommentIcon, LikeIcon } from "../common/icons";
-import { DirectIcon } from "../common/icons/DirectIcon";
 import { regularPosts } from "@/data/mocks/posts";
 import { formatDate, formatNumber } from "@/utils/formatter";
+import { getPostUrl } from "@/utils/posts";
 import { Post } from "@/types/post";
 
 function togglePostLike(posts: Post[], postId: string): Post[] {
@@ -68,7 +69,7 @@ export function ArticlesPreviewByCategorySection() {
                   </div>
                 </div>
                 <div className="flex items-center md:hidden">
-                  <LinkButton variant="regular" href={`/posts/${post.id}`} />
+                  <LinkButton variant="regular" href={`/posts/${post.slug}`} />
                 </div>
               </div>
 
@@ -104,15 +105,16 @@ export function ArticlesPreviewByCategorySection() {
                     icon={<CommentIcon className="h-5 w-5 xl:h-6 xl:w-6" />}
                     value={post.comments?.toString() ?? "0"}
                   />
-                  <SocialStatButton
-                    icon={<DirectIcon className="h-5 w-5 xl:h-6 xl:w-6" />}
-                    value={post.shares.toString()}
+                  <SharePopover
+                    url={getPostUrl(post.slug)}
+                    title={post.title}
+                    shareCount={post.shares}
                   />
                 </div>
               </div>
 
               <div className="hidden items-center justify-end md:flex md:justify-self-end">
-                <LinkButton variant="regular" href={`/posts/${post.id}`} />
+                <LinkButton variant="regular" href={`/posts/${post.slug}`} />
               </div>
             </div>
             <Separator />
