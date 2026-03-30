@@ -1,4 +1,4 @@
-import { CollectionConfig } from "payload";
+import type { CollectionConfig } from "payload";
 
 export const Articles: CollectionConfig = {
   slug: "articles",
@@ -30,23 +30,19 @@ export const Articles: CollectionConfig = {
               name: "isFeatured",
               type: "checkbox",
               label: "Featured (Top Headlines)",
+              defaultValue: false,
             },
             {
-              type: "row",
-              fields: [
-                {
-                  name: "author",
-                  type: "relationship",
-                  relationTo: "authors",
-                  required: true,
-                },
-                {
-                  name: "category",
-                  type: "relationship",
-                  relationTo: "categories",
-                  required: true,
-                },
-              ],
+              name: "author",
+              type: "relationship",
+              relationTo: "authors",
+              required: true,
+            },
+            {
+              name: "category",
+              type: "relationship",
+              relationTo: "categories",
+              required: true,
             },
             {
               name: "coverImage",
@@ -58,6 +54,7 @@ export const Articles: CollectionConfig = {
               name: "excerpt",
               type: "textarea",
               label: "Card summary",
+              required: true,
             },
           ],
         },
@@ -65,7 +62,7 @@ export const Articles: CollectionConfig = {
           label: "Dynamic content",
           fields: [
             {
-              name: "layout",
+              name: "body",
               type: "blocks",
               blocks: [
                 {
@@ -114,6 +111,7 @@ export const Articles: CollectionConfig = {
                 {
                   name: "name",
                   type: "text",
+                  required: true,
                 },
               ],
             },

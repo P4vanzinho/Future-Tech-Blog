@@ -7,6 +7,10 @@
     "dev:playwright": "next dev",
     "build": "next build --turbopack",
     "start": "next start",
+    "payload": "payload",
+    "migrate:create": "payload migrate:create",
+    "migrate": "payload migrate",
+    "generate:types": "payload generate:types",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -19,6 +23,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@libsql/client": "^0.17.0",
     "@payloadcms/db-sqlite": "^3.79.0",
     "@payloadcms/next": "^3.79.0",
     "@payloadcms/richtext-lexical": "^3.79.0",
