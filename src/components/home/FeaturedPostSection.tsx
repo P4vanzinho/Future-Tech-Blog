@@ -6,10 +6,11 @@ import { useFeaturedPost } from "@/hooks/usePosts";
 import { FeaturedPostSkeleton } from "../blog/FeaturedPostSkeleton";
 import { MetadataItem } from "../blog/MetadataItem";
 import { formatDate, formatNumber } from "@/utils/formatter";
+import { getPostUrl } from "@/utils/posts";
 import { SocialStatButton } from "../blog/SocialStatButton";
+import { SharePopover } from "../blog/SharePopover";
 import { LikeIcon } from "../common/icons/LikeIcon";
 import { LinkButton } from "../blog/LinkButton";
-import { DirectIcon } from "../common/icons/DirectIcon";
 
 export function LastFeaturedPostSection() {
   const { data: post, isLoading, toggleLike } = useFeaturedPost();
@@ -68,14 +69,15 @@ export function LastFeaturedPostSection() {
                 transparent={!post.isLiked}
                 onClick={() => post && toggleLike(post.id)}
               />
-              <SocialStatButton
-                icon={<DirectIcon className="h-5 w-5 2xl:h-6 2xl:w-6" />}
-                value={post.shares.toString()}
+              <SharePopover
+                url={getPostUrl(post.slug)}
+                title={post.title}
+                shareCount={post.shares}
               />
             </div>
             <LinkButton
-              className="2xl:px-[1.5rem] 2xl:py-[1.125rem]"
-              href={`/posts/${post.id}`}
+              className="flex-none lg:w-[6.813rem] 2xl:w-[8.5rem] 2xl:px-[1.5rem] 2xl:py-[1.125rem]"
+              href={`/posts/${post.slug}`}
             />
           </div>
         </div>

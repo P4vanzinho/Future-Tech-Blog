@@ -8,6 +8,7 @@ import imageUser from "../../../public/mocks/imageUser.png";
 export const mockPosts: Post[] = [
   {
     id: "1",
+    slug: "global-climate-summit-addresses-urgent-climate-action",
     title: "Global Climate Summit Addresses Urgent Climate Action",
     description:
       "World leaders gathered at the Global Climate Summit to discuss urgent climate action, emissions reductions.",
@@ -24,6 +25,7 @@ export const mockPosts: Post[] = [
   },
   {
     id: "2",
+    slug: "a-decisive-victory-for-progressive-policies",
     title: "A Decisive Victory for Progressive Policies",
     image: Todays_Mock_2,
     imageAlt: "news-2",
@@ -37,6 +39,7 @@ export const mockPosts: Post[] = [
   },
   {
     id: "3",
+    slug: "tech-giants-unveil-cutting-edge-ai-innovations",
     title: "Tech Giants Unveil Cutting-Edge AI Innovations",
     description:
       "Explore the latest innovations from tech industry leaders, unveiling new products that promise to transform the digital landscape",
@@ -53,6 +56,7 @@ export const mockPosts: Post[] = [
   },
   {
     id: "4",
+    slug: "covid-19-variants",
     title: "COVID-19 Variants",
     image: Todays_Mock_4,
     imageAlt: "news-4",

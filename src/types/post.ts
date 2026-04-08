@@ -2,6 +2,7 @@ import { StaticImageData } from "next/image";
 
 export interface Post {
   id: string;
+  slug: string;
   title: string;
   description?: string;
   image: StaticImageData;
