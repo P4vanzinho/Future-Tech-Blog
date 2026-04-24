@@ -42,3 +42,7 @@
   --color-grey-97: oklch(98% 0.005 270);
   --color-grey-99: oklch(99% 0.005 270);
 }
+
+html {
+  scroll-behavior: smooth;
+}

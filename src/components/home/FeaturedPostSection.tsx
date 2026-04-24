@@ -76,8 +76,8 @@ export function LastFeaturedPostSection() {
               />
             </div>
             <LinkButton
-              className="flex-none lg:w-[6.813rem] 2xl:w-[8.5rem] 2xl:px-[1.5rem] 2xl:py-[1.125rem]"
-              href={`/posts/${post.slug}`}
+              className="max-w-[140px] 2xl:max-w-[6.813rem] 2xl:px-[1.5rem] 2xl:py-[1.125rem]"
+              href={`/posts/${post.id}`}
             />
           </div>
         </div>

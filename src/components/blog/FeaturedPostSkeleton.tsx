@@ -27,7 +27,7 @@ export function FeaturedPostSkeleton() {
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 2xl:gap-[0.625rem]">
+          <div className="flex items-center gap-2 2xl:gap-[50px]">
             <div className="bg-dark-15 h-8 w-16 animate-pulse rounded-full lg:h-8 lg:w-[4.5rem] 2xl:h-10 2xl:w-20" />
             <div className="bg-dark-15 h-8 w-12 animate-pulse rounded-full lg:h-8 lg:w-[3.5rem] 2xl:h-10 2xl:w-16" />
           </div>
