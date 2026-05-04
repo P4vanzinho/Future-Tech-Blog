@@ -9,5 +9,9 @@ interface ArticlePageProps {
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { id } = await params;
 
-  return <ArticlePageContent articleId={id} />;
+  return (
+    <main>
+      <ArticlePageContent articleId={id} />
+    </main>
+  );
 }

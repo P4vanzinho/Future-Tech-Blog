@@ -1,10 +1,5 @@
 import Image from "next/image";
-
-interface ArticleHeroProps {
-  image: string;
-  imageAlt: string;
-  title: string;
-}
+import type { ArticleHeroProps } from "./types";
 
 export function ArticleHero({ image, imageAlt, title }: ArticleHeroProps) {
   return (

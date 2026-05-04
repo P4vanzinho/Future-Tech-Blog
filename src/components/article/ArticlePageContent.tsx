@@ -105,7 +105,7 @@ export function ArticlePageContent({ articleId }: ArticlePageContentProps) {
   const tocHeadings = articleSections.map(({ id, title }) => ({ id, title }));
 
   return (
-    <main className="flex w-full flex-col">
+    <article className="flex w-full flex-col">
       <ArticleHero
         image={article.image}
         imageAlt={article.imageAlt}
@@ -140,6 +140,6 @@ export function ArticlePageContent({ articleId }: ArticlePageContentProps) {
 
         <ArticleSimilarNews posts={similarPosts} />
       </div>
-    </main>
+    </article>
   );
 }

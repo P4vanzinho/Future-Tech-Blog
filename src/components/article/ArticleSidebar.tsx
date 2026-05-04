@@ -1,17 +1,7 @@
 import { ArticleSocialStats } from "./ArticleSocialStats";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { ArticleTableOfContents } from "./ArticleTableOfContents";
-import type {
-  ArticleHeading,
-  ArticleMetadata as ArticleMetadataType,
-  ArticleSocialStats as ArticleSocialStatsType,
-} from "@/types/article";
-
-interface ArticleSidebarProps {
-  stats: ArticleSocialStatsType;
-  metadata: ArticleMetadataType;
-  headings: ArticleHeading[];
-}
+import type { ArticleSidebarProps } from "./types";
 
 export function ArticleSidebar({
   stats,

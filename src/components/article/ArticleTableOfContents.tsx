@@ -1,11 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { ArticleHeading } from "@/types/article";
-
-interface ArticleTableOfContentsProps {
-  headings: ArticleHeading[];
-}
+import type { ArticleTableOfContentsProps } from "./types";
 
 export function ArticleTableOfContents({
   headings,

@@ -1,11 +1,7 @@
 import { Post } from "@/components/blog/Post";
 import { LinkButton } from "@/components/blog/LinkButton";
 import { Separator } from "@/components/common/Separator";
-import type { Post as PostType } from "@/types/post";
-
-interface ArticleSimilarNewsProps {
-  posts: PostType[];
-}
+import type { ArticleSimilarNewsProps } from "./types";
 
 export function ArticleSimilarNews({ posts }: ArticleSimilarNewsProps) {
   return (

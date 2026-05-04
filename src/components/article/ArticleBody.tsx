@@ -1,13 +1,7 @@
 "use client";
 
 import { ArrowDownIcon } from "@/components/common/icons/ArrowDownIcon";
-import type { ArticleSection } from "@/types/article";
-
-interface ArticleBodyProps {
-  sections: ArticleSection[];
-  isExpanded: boolean;
-  onExpand: () => void;
-}
+import type { ArticleBodyProps } from "./types";
 
 export function ArticleBody({
   sections,
