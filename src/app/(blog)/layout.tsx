@@ -4,6 +4,7 @@ import { Inter, Kumbh_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/block/Header";
 import { Footer } from "@/components/block/Footer";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,6 +34,13 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Toaster
+          position="bottom-right"
+          richColors
+          toastOptions={{
+            duration: 2000,
+          }}
+        />
       </body>
     </html>
   );

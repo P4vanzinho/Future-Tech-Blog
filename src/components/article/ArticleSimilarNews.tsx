@@ -1,9 +1,9 @@
-import { Post } from "@/components/blog/Post";
+import { ArticleCard } from "@/components/blog/ArticleCard";
 import { LinkButton } from "@/components/blog/LinkButton";
 import { Separator } from "@/components/common/Separator";
 import type { ArticleSimilarNewsProps } from "./types";
 
-export function ArticleSimilarNews({ posts }: ArticleSimilarNewsProps) {
+export function ArticleSimilarNews({ articles }: ArticleSimilarNewsProps) {
   return (
     <section className="px-6 pt-10 pb-10 md:px-10 lg:px-20 lg:pt-20 lg:pb-5 2xl:px-40">
       <div className="mb-[1.875rem] flex items-center justify-between gap-4 lg:mb-0">
@@ -19,10 +19,10 @@ export function ArticleSimilarNews({ posts }: ArticleSimilarNewsProps) {
       </div>
 
       <div className="flex flex-col lg:grid lg:grid-cols-3 lg:gap-8">
-        {posts.map((post, index) => (
-          <div key={post.id}>
-            <Post post={post} />
-            {index < posts.length - 1 && <Separator className="lg:hidden" />}
+        {articles.map((article, index) => (
+          <div key={article.id}>
+            <ArticleCard article={article} />
+            {index < articles.length - 1 && <Separator className="lg:hidden" />}
           </div>
         ))}
       </div>

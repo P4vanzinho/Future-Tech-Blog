@@ -1,22 +1,26 @@
+import { Suspense } from "react";
 import { Separator } from "@/components/common/Separator";
-import { LastFeaturedPostSection } from "@/components/home/FeaturedPostSection";
-import { FeaturedPostsListSection } from "@/components/home/PostsList";
 import { IntroSection } from "@/components/home/HeroSection";
 import { WelcomeToOurNewHubSection } from "@/components/home/WelcomeToOurNewHub";
-import { ArticlesPreviewByCategorySection } from "@/components/home/ArticlesPreviewByCategorySection";
+import { HomeFeaturedAndListSection } from "@/components/home/HomeFeaturedAndListSection";
+import { HomeFeaturedAndListSkeleton } from "@/components/home/HomeFeaturedAndListSkeleton";
+import { HomeCategoryPreviewSection } from "@/components/home/HomeCategoryPreviewSection";
+import { HomeCategoryPreviewSkeleton } from "@/components/home/HomeCategoryPreviewSkeleton";
 
 export default function Home() {
   return (
     <main className="px-4 md:px-5 lg:px-20 2xl:px-40">
       <Separator />
       <IntroSection />
-      <LastFeaturedPostSection />
-      <Separator />
-      <FeaturedPostsListSection />
+      <Suspense fallback={<HomeFeaturedAndListSkeleton />}>
+        <HomeFeaturedAndListSection />
+      </Suspense>
       <Separator />
       <WelcomeToOurNewHubSection />
       <Separator />
-      <ArticlesPreviewByCategorySection />
+      <Suspense fallback={<HomeCategoryPreviewSkeleton />}>
+        <HomeCategoryPreviewSection />
+      </Suspense>
     </main>
   );
 }

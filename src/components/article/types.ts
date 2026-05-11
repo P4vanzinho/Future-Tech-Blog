@@ -1,17 +1,17 @@
 import type { ComponentPropsWithoutRef } from "react";
+import type { StaticImageData } from "next/image";
 import type {
+  Article,
   ArticleHeading,
   ArticleMetadata,
   ArticleSection,
   ArticleSocialStats,
 } from "@/types/article";
-import type { Post } from "@/types/post";
-import { StaticImageData } from "next/image";
 
 export type HeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
 
 export interface ArticleHeroProps {
-  image: StaticImageData;
+  image: string | StaticImageData;
   imageAlt: string;
   title: string;
 }
@@ -49,5 +49,5 @@ export interface ArticleSidebarProps {
 }
 
 export interface ArticleSimilarNewsProps {
-  posts: Post[];
+  articles: Article[];
 }

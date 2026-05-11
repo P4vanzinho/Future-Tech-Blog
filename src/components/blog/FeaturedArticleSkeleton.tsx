@@ -1,4 +1,4 @@
-export function FeaturedPostSkeleton() {
+export function FeaturedArticleSkeleton() {
   return (
     <div className="flex flex-col gap-6 py-10 lg:flex-row lg:items-stretch lg:gap-8 lg:py-[3.75rem] 2xl:justify-between 2xl:py-[5rem]">
       <div className="w-full lg:w-[30rem] lg:flex-shrink-0 2xl:w-[34%]">

@@ -5,6 +5,7 @@ interface SocialStatButtonProps {
   value: string;
   transparent?: boolean;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export function SocialStatButton({
@@ -12,6 +13,7 @@ export function SocialStatButton({
   value,
   transparent = false,
   onClick,
+  disabled = false,
 }: SocialStatButtonProps) {
   const baseClasses = `flex items-center gap-1 rounded-full border px-[0.875rem] py-[0.375rem] 2xl:px-[1rem] 2xl:py-[0.5rem] ${
     transparent
@@ -20,7 +22,7 @@ export function SocialStatButton({
   }`;
 
   const interactiveClasses = onClick
-    ? "cursor-pointer transition-opacity hover:opacity-80"
+    ? "cursor-pointer transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
     : "";
 
   if (onClick) {
@@ -28,6 +30,7 @@ export function SocialStatButton({
       <button
         type="button"
         onClick={onClick}
+        disabled={disabled}
         className={`${baseClasses} ${interactiveClasses}`}
         aria-pressed={!transparent}
       >

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("LastFeaturedPostSection", () => {
+test.describe("LastFeaturedArticleSection", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
@@ -10,13 +10,15 @@ test.describe("LastFeaturedPostSection", () => {
     await page.waitForLoadState("networkidle");
   });
 
-  test("displays featured post after load", async ({ page }) => {
+  test("displays featured article after load", async ({ page }) => {
     await page.waitForLoadState("networkidle");
-    const postImage = page.locator("section img").first();
-    await expect(postImage).toBeVisible({ timeout: 5000 });
+    const articleImage = page.locator("section img").first();
+    await expect(articleImage).toBeVisible({ timeout: 5000 });
   });
 
-  test("displays post metadata (category, date, author)", async ({ page }) => {
+  test("displays article metadata (category, date, author)", async ({
+    page,
+  }) => {
     await page.waitForLoadState("networkidle");
     await expect(
       page.getByText(/Category|Publication Date|Author/i).first()

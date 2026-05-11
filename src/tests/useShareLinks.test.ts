@@ -3,7 +3,7 @@ import { renderHook } from "@testing-library/react";
 import { useShareLinks } from "../hooks/useShareLinks";
 
 describe("useShareLinks", () => {
-  const mockUrl = "https://example.com/posts/test-article";
+  const mockUrl = "https://example.com/article/test-article";
   const mockTitle = "Test Article Title";
 
   it("should return twitter and linkedIn links", () => {
@@ -31,7 +31,7 @@ describe("useShareLinks", () => {
   });
 
   it("should encode URL and title properly", () => {
-    const urlWithSpecialChars = "https://example.com/posts/hello world&test";
+    const urlWithSpecialChars = "https://example.com/article/hello world&test";
     const titleWithSpecialChars = "Hello & World: A Test!";
 
     const { result } = renderHook(() =>
@@ -69,7 +69,7 @@ describe("useShareLinks", () => {
     const firstTwitter = result.current.twitter;
 
     rerender({
-      url: "https://example.com/posts/new-article",
+      url: "https://example.com/article/new-article",
       title: mockTitle,
     });
 

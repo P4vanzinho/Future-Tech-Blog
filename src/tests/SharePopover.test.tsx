@@ -4,7 +4,7 @@ import { SharePopover } from "../components/blog/SharePopover";
 
 describe("SharePopover", () => {
   const defaultProps = {
-    url: "https://example.com/posts/test-article",
+    url: "https://example.com/article/test-article",
     title: "Test Article Title",
     shareCount: 42,
   };
