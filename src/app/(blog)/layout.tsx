@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Inter, Kumbh_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/block/Header";
+import { Footer } from "@/components/block/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

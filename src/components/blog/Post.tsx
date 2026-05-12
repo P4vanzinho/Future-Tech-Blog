@@ -36,7 +36,7 @@ export function Post({ post, onLike }: PostProps) {
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-4 lg:mt-auto">
+      <div className="flex items-center justify-between lg:mt-auto lg:gap-10 2xl:gap-[3.125rem]">
         <div className="flex items-center gap-2 2xl:gap-[0.625rem]">
           <SocialStatButton
             icon={
