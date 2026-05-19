@@ -1,11 +1,11 @@
-import { Post } from "@/types/post";
+import type { Article } from "@/types/article";
 import Todays_Mock_1 from "../../../public/mocks/Todays_mock_1.png";
 import Todays_Mock_2 from "../../../public/mocks/Todays_mock_2.png";
 import Todays_Mock_3 from "../../../public/mocks/Todays_mock_3.png";
 import Todays_Mock_4 from "../../../public/mocks/Todays_mock_4.png";
 import imageUser from "../../../public/mocks/imageUser.png";
 
-export const mockPosts: Post[] = [
+export const mockArticles: Article[] = [
   {
     id: "1",
     slug: "global-climate-summit-addresses-urgent-climate-action",
@@ -70,5 +70,5 @@ export const mockPosts: Post[] = [
   },
 ];
 
-/** Posts for the "articles by category" list (same data as mockPosts, named for section use). */
-export const regularPosts: Post[] = mockPosts;
+/** Same data as `mockArticles`, for sections that need a named import. */
+export const regularArticles: Article[] = mockArticles;

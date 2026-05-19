@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CategoryFilterCarouselMobile } from "./CategoryFilterCarouselMobile";
 import { CategoryFilterButtonsRow } from "./CategoryFilterButtonsRow";
 import { Separator } from "../common/Separator";
@@ -10,49 +10,144 @@ import { LinkButton } from "../blog/LinkButton";
 import { SocialStatButton } from "../blog/SocialStatButton";
 import { SharePopover } from "../blog/SharePopover";
 import { CommentIcon, LikeIcon } from "../common/icons";
-import { regularPosts } from "@/data/mocks/posts";
 import { formatDate, formatNumber } from "@/utils/formatter";
-import { getPostUrl } from "@/utils/posts";
-import { Post } from "@/types/post";
+import { getArticleUrl } from "@/utils/articles";
+import type { Article } from "@/types/article";
+import type { ArticleCategoryFilterOption } from "@/services/types";
+import { persistArticleLike } from "@/services/articleLikes";
+import { toast } from "sonner";
 
-function togglePostLike(posts: Post[], postId: string): Post[] {
-  return posts.map((p) =>
-    p.id === postId
-      ? {
-          ...p,
-          isLiked: !p.isLiked,
-          likes: p.likes + (p.isLiked ? -1 : 1),
-        }
-      : p
-  );
+interface ArticlesPreviewByCategorySectionProps {
+  articles: Article[];
+  categoryFilterOptions: ArticleCategoryFilterOption[];
 }
 
-export function ArticlesPreviewByCategorySection() {
-  const [posts, setPosts] = useState<Post[]>(() => [...regularPosts]);
+export function ArticlesPreviewByCategorySection({
+  articles: initialArticles,
+  categoryFilterOptions,
+}: ArticlesPreviewByCategorySectionProps) {
+  const [articles, setArticles] = useState<Article[]>(() => [
+    ...initialArticles,
+  ]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const pendingDeltaByIdRef = useRef<Map<string, number>>(new Map());
+  const inFlightLikeIdsRef = useRef<Set<string>>(new Set());
+  const confirmedArticleByIdRef = useRef<Map<string, Article>>(
+    new Map(initialArticles.map((article) => [article.id, article]))
+  );
 
-  const handleLike = (postId: string) => {
-    setPosts((prev) => togglePostLike(prev, postId));
+  const flushPendingLikeDelta = async (articleId: string) => {
+    if (inFlightLikeIdsRef.current.has(articleId)) {
+      return;
+    }
+
+    inFlightLikeIdsRef.current.add(articleId);
+
+    try {
+      while (true) {
+        const delta = pendingDeltaByIdRef.current.get(articleId) ?? 0;
+        if (delta === 0) {
+          break;
+        }
+
+        pendingDeltaByIdRef.current.set(articleId, 0);
+
+        const result = await persistArticleLike({
+          articleId,
+          delta,
+        });
+
+        setArticles((previousArticles) =>
+          previousArticles.map((article) => {
+            if (article.id !== articleId) {
+              return article;
+            }
+
+            const nextArticle = {
+              ...article,
+              likes: result.likes,
+            };
+            confirmedArticleByIdRef.current.set(articleId, nextArticle);
+            return nextArticle;
+          })
+        );
+      }
+    } catch {
+      pendingDeltaByIdRef.current.set(articleId, 0);
+      const confirmedArticle = confirmedArticleByIdRef.current.get(articleId);
+      if (confirmedArticle) {
+        setArticles((previousArticles) =>
+          previousArticles.map((article) =>
+            article.id === articleId ? confirmedArticle : article
+          )
+        );
+      }
+      toast.error("Nao foi possivel atualizar o like.");
+    } finally {
+      inFlightLikeIdsRef.current.delete(articleId);
+    }
   };
+
+  const handleLike = async (articleId: string) => {
+    const currentArticle = articles.find((article) => article.id === articleId);
+    if (!currentArticle) {
+      return;
+    }
+
+    const delta = currentArticle.isLiked ? -1 : 1;
+    const currentPendingDelta = pendingDeltaByIdRef.current.get(articleId) ?? 0;
+    pendingDeltaByIdRef.current.set(articleId, currentPendingDelta + delta);
+
+    setArticles((previousArticles) =>
+      previousArticles.map((article) => {
+        if (article.id !== articleId) {
+          return article;
+        }
+
+        return {
+          ...article,
+          isLiked: !article.isLiked,
+          likes: article.likes + delta,
+        };
+      })
+    );
+
+    await flushPendingLikeDelta(articleId);
+  };
+
+  const filteredArticles =
+    selectedCategory === "All"
+      ? articles
+      : articles.filter((article) => article.category === selectedCategory);
+
   return (
     <section className="bg-dark-10 -mx-4 px-4 md:-mx-5 lg:-mx-20 lg:px-20 2xl:-mx-40 2xl:px-40">
       <div className="py-5 lg:py-10 2xl:py-[3.125rem]">
         <div className="flex flex-col gap-6">
-          <CategoryFilterCarouselMobile />
-          <CategoryFilterButtonsRow />
+          <CategoryFilterCarouselMobile
+            selectedCategory={selectedCategory}
+            onCategorySelect={setSelectedCategory}
+            categoryFilterOptions={categoryFilterOptions}
+          />
+          <CategoryFilterButtonsRow
+            selectedCategory={selectedCategory}
+            onCategorySelect={setSelectedCategory}
+            categoryFilterOptions={categoryFilterOptions}
+          />
         </div>
       </div>
       <Separator />
 
       <div className="flex flex-col gap-6 py-10">
-        {posts.map((post) => (
-          <div key={post.id} className="flex flex-col gap-6">
+        {filteredArticles.map((article) => (
+          <div key={article.id} className="flex flex-col gap-6">
             <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-[384fr_942fr_220fr] md:items-stretch md:gap-4">
               <div className="flex w-full justify-between md:contents">
                 <div className="flex shrink-0 items-start gap-4">
                   <div className="bg-dark-20 h-[3.75rem] w-[3.75rem] shrink-0 rounded-full xl:h-20 xl:w-20">
                     <Image
-                      src={post.authorImage ?? defaultUserImage}
-                      alt={post.author ?? "Author"}
+                      src={article.authorImage ?? defaultUserImage}
+                      alt={article.author ?? "Author"}
                       width={100}
                       height={100}
                       className="h-full w-full rounded-full object-cover"
@@ -61,30 +156,33 @@ export function ArticlesPreviewByCategorySection() {
                   </div>
                   <div className="flex flex-col items-start justify-center">
                     <span className="font-sans text-[1.125rem] leading-[150%] font-semibold tracking-[-0.03em] text-white xl:text-[1.25rem]">
-                      {post.author ?? "Author"}
+                      {article.author ?? "Author"}
                     </span>
                     <span className="text-grey-60 font-sans text-base leading-[150%] font-normal tracking-[-0.03em] xl:text-[1.125rem]">
-                      {post.category}
+                      {article.category}
                     </span>
                   </div>
                 </div>
                 <div className="flex items-center md:hidden">
-                  <LinkButton variant="regular" href={`/posts/${post.slug}`} />
+                  <LinkButton
+                    variant="regular"
+                    href={`/article/${article.slug}`}
+                  />
                 </div>
               </div>
 
               <div className="flex min-w-0 flex-col gap-5 md:justify-center">
                 <span className="text-grey-60 text-base leading-[150%] font-semibold tracking-[-0.03em] xl:text-[1.25rem]">
-                  {formatDate(post.publicationDate)}
+                  {formatDate(article.publicationDate)}
                 </span>
 
                 <div className="flex flex-col gap-1">
                   <h3 className="text-[1.125rem] leading-[150%] font-semibold tracking-[-0.03em] text-white xl:text-[1.625rem]">
-                    {post.title}
+                    {article.title}
                   </h3>
-                  {post.description && (
+                  {article.description && (
                     <p className="text-grey-60 text-sm leading-[150%] font-normal tracking-[-0.03em] xl:text-[1.125rem]">
-                      {post.description}
+                      {article.description}
                     </p>
                   )}
                 </div>
@@ -93,28 +191,31 @@ export function ArticlesPreviewByCategorySection() {
                   <SocialStatButton
                     icon={
                       <LikeIcon
-                        filled={post.isLiked}
+                        filled={article.isLiked}
                         className="h-5 w-5 xl:h-6 xl:w-6"
                       />
                     }
-                    value={formatNumber(post.likes)}
-                    transparent={!post.isLiked}
-                    onClick={() => handleLike(post.id)}
+                    value={formatNumber(article.likes)}
+                    transparent={!article.isLiked}
+                    onClick={() => handleLike(article.id)}
                   />
                   <SocialStatButton
                     icon={<CommentIcon className="h-5 w-5 xl:h-6 xl:w-6" />}
-                    value={post.comments?.toString() ?? "0"}
+                    value={article.comments?.toString() ?? "0"}
                   />
                   <SharePopover
-                    url={getPostUrl(post.slug)}
-                    title={post.title}
-                    shareCount={post.shares}
+                    url={getArticleUrl(article.slug)}
+                    title={article.title}
+                    shareCount={article.shares}
                   />
                 </div>
               </div>
 
               <div className="hidden items-center justify-end md:flex md:justify-self-end">
-                <LinkButton variant="regular" href={`/posts/${post.slug}`} />
+                <LinkButton
+                  variant="regular"
+                  href={`/article/${article.slug}`}
+                />
               </div>
             </div>
             <Separator />

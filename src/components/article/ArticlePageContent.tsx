@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { mockPosts } from "@/data/mocks/posts";
+import { mockArticles } from "@/data/mocks/articles";
 import { Separator } from "@/components/common/Separator";
 import { ArticleHero } from "./ArticleHero";
 import { ArticleSocialStats } from "./ArticleSocialStats";
@@ -79,12 +79,12 @@ const ARTICLE_METADATA = {
 export function ArticlePageContent({ articleId }: ArticlePageContentProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const article =
-    mockPosts.find((post) => post.id === articleId) ?? mockPosts[0];
+    mockArticles.find((item) => item.id === articleId) ?? mockArticles[0];
 
-  const similarPosts = useMemo(
+  const similarArticles = useMemo(
     () =>
-      mockPosts
-        .filter((post) => post.id !== article.id)
+      mockArticles
+        .filter((item) => item.id !== article.id)
         .sort((current, next) => {
           if (
             current.category === article.category &&
@@ -138,7 +138,7 @@ export function ArticlePageContent({ articleId }: ArticlePageContentProps) {
 
         <Separator />
 
-        <ArticleSimilarNews posts={similarPosts} />
+        <ArticleSimilarNews articles={similarArticles} />
       </div>
     </article>
   );

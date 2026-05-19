@@ -1,3 +1,5 @@
+import type { StaticImageData } from "next/image";
+
 export interface ArticleHeading {
   id: string;
   title: string;
@@ -24,4 +26,22 @@ export interface ArticleSocialStats {
 
 export interface ArticlePageContentProps {
   articleId: string;
+}
+
+export interface Article {
+  id: string;
+  slug: string;
+  title: string;
+  description?: string;
+  image: string | StaticImageData;
+  imageAlt: string;
+  category: string;
+  publicationDate?: string;
+  author?: string;
+  authorImage?: string | StaticImageData;
+  likes: number;
+  comments?: number;
+  shares: number;
+  isLiked?: boolean;
+  isFeatured?: boolean;
 }

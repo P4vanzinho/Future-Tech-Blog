@@ -1,4 +1,4 @@
-export function PostSkeleton() {
+export function ArticleCardSkeleton() {
   return (
     <div className="flex flex-col py-10 lg:h-full lg:py-[3.75rem] 2xl:py-[5rem]">
       <div className="bg-dark-15 h-[13.3125rem] w-full animate-pulse rounded-lg lg:h-[13.3125rem] lg:flex-shrink-0" />
