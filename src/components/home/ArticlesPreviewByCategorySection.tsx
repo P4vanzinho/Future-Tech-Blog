@@ -16,6 +16,7 @@ import type { Article } from "@/types/article";
 import type { ArticleCategoryFilterOption } from "@/services/types";
 import { persistArticleLike } from "@/services/articleLikes";
 import { toast } from "sonner";
+import { hydrateArticlesLikedState } from "@/utils/likesCookieClient";
 
 interface ArticlesPreviewByCategorySectionProps {
   articles: Article[];
@@ -26,14 +27,19 @@ export function ArticlesPreviewByCategorySection({
   articles: initialArticles,
   categoryFilterOptions,
 }: ArticlesPreviewByCategorySectionProps) {
-  const [articles, setArticles] = useState<Article[]>(() => [
-    ...initialArticles,
-  ]);
+  const [articles, setArticles] = useState<Article[]>(() =>
+    hydrateArticlesLikedState(initialArticles)
+  );
   const [selectedCategory, setSelectedCategory] = useState("All");
   const pendingDeltaByIdRef = useRef<Map<string, number>>(new Map());
   const inFlightLikeIdsRef = useRef<Set<string>>(new Set());
   const confirmedArticleByIdRef = useRef<Map<string, Article>>(
-    new Map(initialArticles.map((article) => [article.id, article]))
+    new Map(
+      hydrateArticlesLikedState(initialArticles).map((article) => [
+        article.id,
+        article,
+      ])
+    )
   );
 
   const flushPendingLikeDelta = async (articleId: string) => {

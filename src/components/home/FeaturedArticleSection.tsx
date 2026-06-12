@@ -13,6 +13,7 @@ import { LikeIcon } from "../common/icons/LikeIcon";
 import { LinkButton } from "../blog/LinkButton";
 import { persistArticleLike } from "@/services/articleLikes";
 import { toast } from "sonner";
+import { hydrateArticleLikedState } from "@/utils/likesCookieClient";
 
 interface LastFeaturedArticleSectionProps {
   article: Article | null;
@@ -21,10 +22,12 @@ interface LastFeaturedArticleSectionProps {
 export function LastFeaturedArticleSection({
   article: initialArticle,
 }: LastFeaturedArticleSectionProps) {
-  const [article, setArticle] = useState(initialArticle);
+  const [article, setArticle] = useState(() =>
+    initialArticle ? hydrateArticleLikedState(initialArticle) : initialArticle
+  );
   const pendingDeltaRef = useRef(0);
   const isPersistingLikeRef = useRef(false);
-  const confirmedArticleRef = useRef(initialArticle);
+  const confirmedArticleRef = useRef(article);
 
   if (!article) return null;
 

@@ -7,6 +7,7 @@ import { Separator } from "@/components/common/Separator";
 import { ArticleCard } from "@/components/blog/ArticleCard";
 import { persistArticleLike } from "@/services/articleLikes";
 import { toast } from "sonner";
+import { hydrateArticlesLikedState } from "@/utils/likesCookieClient";
 
 interface FeaturedArticlesListSectionProps {
   articles: Article[];
@@ -15,11 +16,18 @@ interface FeaturedArticlesListSectionProps {
 export function FeaturedArticlesListSection({
   articles: initialArticles,
 }: FeaturedArticlesListSectionProps) {
-  const [articles, setArticles] = useState(initialArticles);
+  const [articles, setArticles] = useState(() =>
+    hydrateArticlesLikedState(initialArticles)
+  );
   const pendingDeltaByIdRef = useRef<Map<string, number>>(new Map());
   const inFlightLikeIdsRef = useRef<Set<string>>(new Set());
   const confirmedArticleByIdRef = useRef<Map<string, Article>>(
-    new Map(initialArticles.map((article) => [article.id, article]))
+    new Map(
+      hydrateArticlesLikedState(initialArticles).map((article) => [
+        article.id,
+        article,
+      ])
+    )
   );
 
   const flushPendingLikeDelta = async (articleId: string) => {
