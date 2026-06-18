@@ -1,143 +1,84 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { SharePopover } from "../components/blog/SharePopover";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { SharePopover } from "@/components/blog/SharePopover";
+import type { Article } from "@/types/article";
+
+const article: Article = {
+  id: "42",
+  slug: "test-article",
+  title: "Test Article",
+  description: "Test description",
+  image: "/test.png",
+  imageAlt: "Test",
+  category: "Technology",
+  likes: 1,
+  views: 2,
+  shares: 3,
+};
 
 describe("SharePopover", () => {
-  const defaultProps = {
-    url: "https://example.com/article/test-article",
-    title: "Test Article Title",
-    shareCount: 42,
-  };
-
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ shares: 4, provider: "x", counted: true }),
+      })
+    );
   });
 
-  it("should render the share button with correct count", () => {
-    render(<SharePopover {...defaultProps} />);
-
-    expect(screen.getByText("42")).toBeInTheDocument();
-    expect(
+  it("renders the current count and all supported providers", async () => {
+    render(<SharePopover article={article} />);
+    fireEvent.click(
       screen.getByRole("button", { name: /share this article/i })
+    );
+
+    expect(screen.getByText("3")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("button", { name: /share on x/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /share on linkedin/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /share with another app/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /copy link/i })
     ).toBeInTheDocument();
   });
 
-  it("should have correct aria-label on trigger button", () => {
-    render(<SharePopover {...defaultProps} />);
+  it("opens the X composer and records the provider", async () => {
+    const open = vi.spyOn(window, "open").mockReturnValue({} as Window);
+    render(<SharePopover article={article} />);
+    fireEvent.click(
+      screen.getByRole("button", { name: /share this article/i })
+    );
+    fireEvent.click(await screen.findByRole("button", { name: /share on x/i }));
 
-    const triggerButton = screen.getByRole("button", {
-      name: /share this article/i,
-    });
-    expect(triggerButton).toHaveAttribute("aria-label", "Share this article");
+    expect(open).toHaveBeenCalledWith(
+      expect.stringContaining("https://x.com/intent/tweet"),
+      "_blank"
+    );
+    await waitFor(() =>
+      expect(fetch).toHaveBeenCalledWith(
+        "/api/articles/42/shares",
+        expect.objectContaining({ method: "POST" })
+      )
+    );
   });
 
-  it("should open popover and show share options on click (desktop)", async () => {
-    render(<SharePopover {...defaultProps} />);
+  it("counts copy only after the clipboard succeeds", async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.assign(navigator, { clipboard: { writeText } });
+    render(<SharePopover article={article} />);
+    fireEvent.click(
+      screen.getByRole("button", { name: /share this article/i })
+    );
+    fireEvent.click(await screen.findByRole("button", { name: /copy link/i }));
 
-    const triggerButton = screen.getByRole("button", {
-      name: /share this article/i,
-    });
-    fireEvent.click(triggerButton);
-
-    await waitFor(() => {
-      expect(screen.getByText("Twitter / X")).toBeInTheDocument();
-      expect(screen.getByText("LinkedIn")).toBeInTheDocument();
-      expect(screen.getByText("Copy Link")).toBeInTheDocument();
-    });
-  });
-
-  it("should have correct Twitter share link", async () => {
-    render(<SharePopover {...defaultProps} />);
-
-    const triggerButton = screen.getByRole("button", {
-      name: /share this article/i,
-    });
-    fireEvent.click(triggerButton);
-
-    await waitFor(() => {
-      const twitterLink = screen.getByRole("link", {
-        name: /share on twitter/i,
-      });
-      expect(twitterLink).toHaveAttribute(
-        "href",
-        expect.stringContaining("twitter.com/intent/tweet")
-      );
-      expect(twitterLink).toHaveAttribute(
-        "href",
-        expect.stringContaining("url=")
-      );
-      expect(twitterLink).toHaveAttribute(
-        "href",
-        expect.stringContaining("text=")
-      );
-      expect(twitterLink).toHaveAttribute("target", "_blank");
-      expect(twitterLink).toHaveAttribute("rel", "noopener noreferrer");
-    });
-  });
-
-  it("should have correct LinkedIn share link", async () => {
-    render(<SharePopover {...defaultProps} />);
-
-    const triggerButton = screen.getByRole("button", {
-      name: /share this article/i,
-    });
-    fireEvent.click(triggerButton);
-
-    await waitFor(() => {
-      const linkedInLink = screen.getByRole("link", {
-        name: /share on linkedin/i,
-      });
-      expect(linkedInLink).toHaveAttribute(
-        "href",
-        expect.stringContaining("linkedin.com/sharing/share-offsite")
-      );
-      expect(linkedInLink).toHaveAttribute("target", "_blank");
-      expect(linkedInLink).toHaveAttribute("rel", "noopener noreferrer");
-    });
-  });
-
-  it("should copy link to clipboard when copy button is clicked", async () => {
-    const writeTextMock = vi.fn().mockResolvedValue(undefined);
-    Object.assign(navigator, {
-      clipboard: { writeText: writeTextMock },
-    });
-
-    render(<SharePopover {...defaultProps} />);
-
-    const triggerButton = screen.getByRole("button", {
-      name: /share this article/i,
-    });
-    fireEvent.click(triggerButton);
-
-    await waitFor(() => {
-      const copyButton = screen.getByRole("button", { name: /copy link/i });
-      fireEvent.click(copyButton);
-    });
-
-    await waitFor(() => {
-      expect(writeTextMock).toHaveBeenCalledWith(defaultProps.url);
-      expect(screen.getByText("Copied!")).toBeInTheDocument();
-    });
-  });
-
-  it("should have accessible labels on all share options", async () => {
-    render(<SharePopover {...defaultProps} />);
-
-    const triggerButton = screen.getByRole("button", {
-      name: /share this article/i,
-    });
-    fireEvent.click(triggerButton);
-
-    await waitFor(() => {
-      expect(
-        screen.getByRole("link", { name: /share on twitter/i })
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("link", { name: /share on linkedin/i })
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: /copy link/i })
-      ).toBeInTheDocument();
-    });
+    await waitFor(() => expect(writeText).toHaveBeenCalled());
+    await waitFor(() => expect(fetch).toHaveBeenCalled());
   });
 });

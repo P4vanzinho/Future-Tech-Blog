@@ -1,9 +1,28 @@
+"use client";
+
+import { toast } from "sonner";
 import { ArticleCard } from "@/components/blog/ArticleCard";
 import { LinkButton } from "@/components/blog/LinkButton";
 import { Separator } from "@/components/common/Separator";
 import type { ArticleSimilarNewsProps } from "./types";
+import { useArticleLikes } from "@/hooks/useArticleLikes";
 
-export function ArticleSimilarNews({ articles }: ArticleSimilarNewsProps) {
+export function ArticleSimilarNews({
+  articles: initialArticles,
+}: ArticleSimilarNewsProps) {
+  const { articles, toggleArticleLike } = useArticleLikes(initialArticles);
+
+  const handleLike = async (articleId: string) => {
+    const article = articles.find((item) => item.id === articleId);
+    if (!article) return;
+
+    try {
+      await toggleArticleLike(article);
+    } catch {
+      toast.error("Nao foi possivel atualizar o like.");
+    }
+  };
+
   return (
     <section className="px-6 pt-10 pb-10 md:px-10 lg:px-20 lg:pt-20 lg:pb-5 2xl:px-40">
       <div className="mb-[1.875rem] flex items-center justify-between gap-4 lg:mb-0">
@@ -21,7 +40,7 @@ export function ArticleSimilarNews({ articles }: ArticleSimilarNewsProps) {
       <div className="flex flex-col lg:grid lg:grid-cols-3 lg:gap-8">
         {articles.map((article, index) => (
           <div key={article.id}>
-            <ArticleCard article={article} />
+            <ArticleCard article={article} onLike={handleLike} />
             {index < articles.length - 1 && <Separator className="lg:hidden" />}
           </div>
         ))}

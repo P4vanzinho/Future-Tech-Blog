@@ -33,6 +33,7 @@ export function SocialStatButton({
         disabled={disabled}
         className={`${baseClasses} ${interactiveClasses}`}
         aria-pressed={!transparent}
+        suppressHydrationWarning
       >
         {icon}
         <span className="text-grey-60 font-display text-[0.875rem] leading-[150%] xl:text-[1.125rem]">

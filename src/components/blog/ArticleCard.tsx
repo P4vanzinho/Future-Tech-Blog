@@ -5,7 +5,6 @@ import { SocialStatButton } from "./SocialStatButton";
 import { SharePopover } from "./SharePopover";
 import { LinkButton } from "./LinkButton";
 import { formatNumber } from "@/utils/formatter";
-import { getArticleUrl } from "@/utils/articles";
 
 interface ArticleCardProps {
   article: Article;
@@ -49,11 +48,7 @@ export function ArticleCard({ article, onLike }: ArticleCardProps) {
             transparent={!article.isLiked}
             onClick={onLike ? () => onLike(article.id) : undefined}
           />
-          <SharePopover
-            url={getArticleUrl(article.slug)}
-            title={article.title}
-            shareCount={article.shares}
-          />
+          <SharePopover article={article} />
         </div>
         <LinkButton variant="regular" href={`/article/${article.slug}`} />
       </div>

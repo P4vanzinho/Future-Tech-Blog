@@ -18,7 +18,11 @@ vi.mock("@/utils/mappers/article", () => ({
   mapPayloadArticle: mockMapPayloadArticle,
 }));
 
-import { getArticleBySlug, getArticles } from "@/services/articles";
+import {
+  getArticleBySlug,
+  getArticles,
+  getPublishedArticleSlugs,
+} from "@/services/articles";
 
 describe("articles service", () => {
   beforeEach(() => {
@@ -40,6 +44,11 @@ describe("articles service", () => {
 
     expect(mockFind).toHaveBeenCalledWith({
       collection: "articles",
+      where: {
+        _status: {
+          equals: "published",
+        },
+      },
       sort: "-createdAt",
       depth: 2,
       limit: 30,
@@ -49,9 +58,11 @@ describe("articles service", () => {
         title: true,
         excerpt: true,
         createdAt: true,
+        publishedAt: true,
         isFeatured: true,
         stats: {
           likes: true,
+          views: true,
           shares: true,
         },
         category: true,
@@ -85,6 +96,9 @@ describe("articles service", () => {
     expect(mockFind).toHaveBeenCalledWith({
       collection: "articles",
       where: {
+        _status: {
+          equals: "published",
+        },
         slug: {
           equals: "my-article",
         },
@@ -97,9 +111,11 @@ describe("articles service", () => {
         title: true,
         excerpt: true,
         createdAt: true,
+        publishedAt: true,
         isFeatured: true,
         stats: {
           likes: true,
+          views: true,
           shares: true,
         },
         category: true,
@@ -119,5 +135,29 @@ describe("articles service", () => {
 
     expect(result).toBeNull();
     expect(mockMapPayloadArticle).not.toHaveBeenCalled();
+  });
+
+  it("returns only published slugs for static generation", async () => {
+    mockFind.mockResolvedValue({
+      docs: [{ slug: "first-article" }, { slug: "second-article" }],
+    });
+
+    const result = await getPublishedArticleSlugs();
+
+    expect(mockFind).toHaveBeenCalledWith({
+      collection: "articles",
+      where: {
+        _status: {
+          equals: "published",
+        },
+      },
+      depth: 0,
+      limit: 1000,
+      pagination: false,
+      select: {
+        slug: true,
+      },
+    });
+    expect(result).toEqual(["first-article", "second-article"]);
   });
 });

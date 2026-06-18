@@ -1,18 +1,14 @@
 import { useMemo } from "react";
+import type { ShareLinks } from "@/types/share";
+import { createShareLinks } from "@/utils/shareLinks";
 
-interface ShareLinks {
-  twitter: string;
-  linkedIn: string;
-}
-
-export function useShareLinks(url: string, title: string): ShareLinks {
-  return useMemo(() => {
-    const encodedUrl = encodeURIComponent(url);
-    const encodedTitle = encodeURIComponent(title);
-
-    return {
-      twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
-      linkedIn: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-    };
-  }, [url, title]);
+export function useShareLinks(
+  url: string,
+  title: string,
+  description = ""
+): ShareLinks {
+  return useMemo(
+    () => createShareLinks(url, title, description),
+    [description, title, url]
+  );
 }

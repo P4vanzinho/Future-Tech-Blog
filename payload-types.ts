@@ -184,6 +184,7 @@ export interface Article {
   category: number | Category;
   coverImage: number | Media;
   excerpt: string;
+  publishedAt?: string | null;
   body?:
     | (
         | {
@@ -236,6 +237,7 @@ export interface Article {
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ("draft" | "published") | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -399,6 +401,7 @@ export interface ArticlesSelect<T extends boolean = true> {
   category?: T;
   coverImage?: T;
   excerpt?: T;
+  publishedAt?: T;
   body?:
     | T
     | {
@@ -434,6 +437,7 @@ export interface ArticlesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

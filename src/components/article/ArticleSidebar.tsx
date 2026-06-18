@@ -4,7 +4,7 @@ import { ArticleTableOfContents } from "./ArticleTableOfContents";
 import type { ArticleSidebarProps } from "./types";
 
 export function ArticleSidebar({
-  stats,
+  article,
   metadata,
   headings,
 }: ArticleSidebarProps) {
@@ -15,7 +15,7 @@ export function ArticleSidebar({
     >
       <div className="flex min-w-0 flex-col gap-[1.875rem] lg:sticky lg:top-8 lg:max-h-[calc(100vh-4rem)] lg:gap-0 lg:overflow-y-auto lg:pr-0 lg:pl-0">
         <ArticleSocialStats
-          stats={stats}
+          article={article}
           className="border-dark-15 hidden gap-[0.875rem] lg:flex lg:flex-wrap lg:border-b lg:px-10 lg:py-[50px] 2xl:px-20"
         />
         <ArticleMetadata

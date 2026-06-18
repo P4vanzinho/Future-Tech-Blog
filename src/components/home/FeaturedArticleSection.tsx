@@ -6,7 +6,6 @@ import { Separator } from "@/components/common/Separator";
 import type { Article } from "@/types/article";
 import { MetadataItem } from "../blog/MetadataItem";
 import { formatDate, formatNumber } from "@/utils/formatter";
-import { getArticleUrl } from "@/utils/articles";
 import { SocialStatButton } from "../blog/SocialStatButton";
 import { SharePopover } from "../blog/SharePopover";
 import { LikeIcon } from "../common/icons/LikeIcon";
@@ -89,11 +88,7 @@ export function LastFeaturedArticleSection({
                 transparent={!article.isLiked}
                 onClick={handleLike}
               />
-              <SharePopover
-                url={getArticleUrl(article.slug)}
-                title={article.title}
-                shareCount={article.shares}
-              />
+              <SharePopover article={article} />
             </div>
             <LinkButton
               className="max-w-[140px] 2xl:max-w-[6.813rem] 2xl:px-[1.5rem] 2xl:py-[1.125rem]"

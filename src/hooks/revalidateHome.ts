@@ -6,14 +6,22 @@ import type {
 
 export const revalidateHomeAfterChange: CollectionAfterChangeHook = ({
   doc,
+  context,
 }) => {
+  if (context.skipRevalidation === true) return doc;
+
   revalidatePath("/");
+  revalidatePath("/article/[slug]", "page");
   return doc;
 };
 
 export const revalidateHomeAfterDelete: CollectionAfterDeleteHook = ({
   doc,
+  context,
 }) => {
+  if (context.skipRevalidation === true) return doc;
+
   revalidatePath("/");
+  revalidatePath("/article/[slug]", "page");
   return doc;
 };

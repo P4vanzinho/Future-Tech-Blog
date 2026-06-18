@@ -1,12 +1,7 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import type { StaticImageData } from "next/image";
-import type {
-  Article,
-  ArticleHeading,
-  ArticleMetadata,
-  ArticleSection,
-  ArticleSocialStats,
-} from "@/types/article";
+import type { Article, ArticleHeading, ArticleMetadata } from "@/types/article";
+import type { ArticleDetail } from "@/types/articleDetail";
 
 export type HeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -17,13 +12,15 @@ export interface ArticleHeroProps {
 }
 
 export interface ArticleBodyProps {
-  sections: ArticleSection[];
-  isExpanded: boolean;
-  onExpand: () => void;
+  children: ReactNode;
+}
+
+export interface ArticlePageContentProps {
+  article: ArticleDetail;
 }
 
 export interface ArticleSocialStatsProps extends ComponentPropsWithoutRef<"div"> {
-  stats: ArticleSocialStats;
+  article: Article;
 }
 
 export interface ArticleMetadataProps {
@@ -43,7 +40,7 @@ export interface ArticleTableOfContentsProps {
 }
 
 export interface ArticleSidebarProps {
-  stats: ArticleSocialStats;
+  article: Article;
   metadata: ArticleMetadata;
   headings: ArticleHeading[];
 }

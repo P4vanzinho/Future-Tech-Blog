@@ -1,11 +1,7 @@
 import { atom } from "jotai";
 import { persistArticleLike } from "@/services/articleLikes";
 import type { Article } from "@/types/article";
-
-export interface ArticleLikeState {
-  likes: number;
-  isLiked: boolean;
-}
+import type { ArticleLikeState } from "@/types/articleLikes";
 
 export const articleLikeStatesAtom = atom<Record<string, ArticleLikeState>>({});
 
@@ -44,6 +40,23 @@ export const registerArticleLikesAtom = atom(
     }
 
     set(articleLikeStatesAtom, nextStates);
+  }
+);
+
+export const reconcileArticleLikeAtom = atom(
+  null,
+  (
+    _get,
+    set,
+    input: { articleId: string; likes: number; isLiked: boolean }
+  ) => {
+    const state = { likes: input.likes, isLiked: input.isLiked };
+    set(confirmedArticleLikeStatesAtom, (states) =>
+      mergeArticleLikeState(states, input.articleId, state)
+    );
+    set(articleLikeStatesAtom, (states) =>
+      mergeArticleLikeState(states, input.articleId, state)
+    );
   }
 );
 

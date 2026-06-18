@@ -3,6 +3,7 @@ import type { StaticImageData } from "next/image";
 export interface ArticleHeading {
   id: string;
   title: string;
+  level: 2 | 3;
 }
 
 export interface ArticleSection {
@@ -19,13 +20,9 @@ export interface ArticleMetadata {
 }
 
 export interface ArticleSocialStats {
-  likes: string;
-  views: string;
-  shares: string;
-}
-
-export interface ArticlePageContentProps {
-  articleId: string;
+  likes: number;
+  views: number;
+  shares: number;
 }
 
 export interface Article {
@@ -40,6 +37,7 @@ export interface Article {
   author?: string;
   authorImage?: string | StaticImageData;
   likes: number;
+  views: number;
   comments?: number;
   shares: number;
   isLiked?: boolean;

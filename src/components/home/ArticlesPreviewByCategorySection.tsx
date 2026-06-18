@@ -11,7 +11,6 @@ import { SocialStatButton } from "../blog/SocialStatButton";
 import { SharePopover } from "../blog/SharePopover";
 import { CommentIcon, LikeIcon } from "../common/icons";
 import { formatDate, formatNumber } from "@/utils/formatter";
-import { getArticleUrl } from "@/utils/articles";
 import type { Article } from "@/types/article";
 import type { ArticleCategoryFilterOption } from "@/services/types";
 import { toast } from "sonner";
@@ -128,11 +127,7 @@ export function ArticlesPreviewByCategorySection({
                     icon={<CommentIcon className="h-5 w-5 xl:h-6 xl:w-6" />}
                     value={article.comments?.toString() ?? "0"}
                   />
-                  <SharePopover
-                    url={getArticleUrl(article.slug)}
-                    title={article.title}
-                    shareCount={article.shares}
-                  />
+                  <SharePopover article={article} />
                 </div>
               </div>
 

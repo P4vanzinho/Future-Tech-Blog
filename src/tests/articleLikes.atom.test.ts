@@ -15,6 +15,7 @@ const article: Article = {
   imageAlt: "Article",
   category: "Technology",
   likes: 7,
+  views: 20,
   shares: 0,
   isLiked: false,
 };
