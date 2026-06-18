@@ -19,6 +19,7 @@ export const mockArticles: Article[] = [
     author: "Jane Smith",
     authorImage: imageUser,
     likes: 24500,
+    views: 50000,
     comments: 50,
     shares: 204,
     isLiked: true,
@@ -34,6 +35,7 @@ export const mockArticles: Article[] = [
     author: "John Techson",
     authorImage: imageUser,
     likes: 14000,
+    views: 32000,
     comments: 32,
     shares: 204,
   },
@@ -50,6 +52,7 @@ export const mockArticles: Article[] = [
     author: "John Techson",
     authorImage: imageUser,
     likes: 14000,
+    views: 41000,
     comments: 50,
     shares: 204,
     isLiked: true,
@@ -65,10 +68,10 @@ export const mockArticles: Article[] = [
     author: "Jane Smith",
     authorImage: imageUser,
     likes: 14000,
+    views: 28000,
     comments: 28,
     shares: 204,
   },
 ];
 
-/** Same data as `mockArticles`, for sections that need a named import. */
 export const regularArticles: Article[] = mockArticles;
