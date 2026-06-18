@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Article } from "@/types/article";
 import { Separator } from "@/components/common/Separator";
 import { ArticleCard } from "@/components/blog/ArticleCard";
@@ -16,19 +15,20 @@ interface FeaturedArticlesListSectionProps {
 export function FeaturedArticlesListSection({
   articles: initialArticles,
 }: FeaturedArticlesListSectionProps) {
-  const [articles, setArticles] = useState(() =>
-    hydrateArticlesLikedState(initialArticles)
-  );
+  const [articles, setArticles] = useState(initialArticles);
   const pendingDeltaByIdRef = useRef<Map<string, number>>(new Map());
   const inFlightLikeIdsRef = useRef<Set<string>>(new Set());
   const confirmedArticleByIdRef = useRef<Map<string, Article>>(
-    new Map(
-      hydrateArticlesLikedState(initialArticles).map((article) => [
-        article.id,
-        article,
-      ])
-    )
+    new Map(initialArticles.map((article) => [article.id, article]))
   );
+
+  useEffect(() => {
+    const hydratedArticles = hydrateArticlesLikedState(initialArticles);
+    confirmedArticleByIdRef.current = new Map(
+      hydratedArticles.map((article) => [article.id, article])
+    );
+    setArticles(hydratedArticles);
+  }, [initialArticles]);
 
   const flushPendingLikeDelta = async (articleId: string) => {
     if (inFlightLikeIdsRef.current.has(articleId)) {

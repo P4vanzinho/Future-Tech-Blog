@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Separator } from "@/components/common/Separator";
 import type { Article } from "@/types/article";
 import { MetadataItem } from "../blog/MetadataItem";
@@ -22,12 +22,20 @@ interface LastFeaturedArticleSectionProps {
 export function LastFeaturedArticleSection({
   article: initialArticle,
 }: LastFeaturedArticleSectionProps) {
-  const [article, setArticle] = useState(() =>
-    initialArticle ? hydrateArticleLikedState(initialArticle) : initialArticle
-  );
+  const [article, setArticle] = useState(initialArticle);
   const pendingDeltaRef = useRef(0);
   const isPersistingLikeRef = useRef(false);
   const confirmedArticleRef = useRef(article);
+
+  useEffect(() => {
+    if (!initialArticle) {
+      return;
+    }
+
+    const hydratedArticle = hydrateArticleLikedState(initialArticle);
+    confirmedArticleRef.current = hydratedArticle;
+    setArticle(hydratedArticle);
+  }, [initialArticle]);
 
   if (!article) return null;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CategoryFilterCarouselMobile } from "./CategoryFilterCarouselMobile";
 import { CategoryFilterButtonsRow } from "./CategoryFilterButtonsRow";
 import { Separator } from "../common/Separator";
@@ -27,20 +27,21 @@ export function ArticlesPreviewByCategorySection({
   articles: initialArticles,
   categoryFilterOptions,
 }: ArticlesPreviewByCategorySectionProps) {
-  const [articles, setArticles] = useState<Article[]>(() =>
-    hydrateArticlesLikedState(initialArticles)
-  );
+  const [articles, setArticles] = useState<Article[]>(initialArticles);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const pendingDeltaByIdRef = useRef<Map<string, number>>(new Map());
   const inFlightLikeIdsRef = useRef<Set<string>>(new Set());
   const confirmedArticleByIdRef = useRef<Map<string, Article>>(
-    new Map(
-      hydrateArticlesLikedState(initialArticles).map((article) => [
-        article.id,
-        article,
-      ])
-    )
+    new Map(initialArticles.map((article) => [article.id, article]))
   );
+
+  useEffect(() => {
+    const hydratedArticles = hydrateArticlesLikedState(initialArticles);
+    confirmedArticleByIdRef.current = new Map(
+      hydratedArticles.map((article) => [article.id, article])
+    );
+    setArticles(hydratedArticles);
+  }, [initialArticles]);
 
   const flushPendingLikeDelta = async (articleId: string) => {
     if (inFlightLikeIdsRef.current.has(articleId)) {
