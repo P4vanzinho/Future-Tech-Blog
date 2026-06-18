@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import type { Article } from "@/types/article";
 import { Separator } from "@/components/common/Separator";
 import { ArticleCard } from "@/components/blog/ArticleCard";
-import { persistArticleLike } from "@/services/articleLikes";
 import { toast } from "sonner";
-import { hydrateArticlesLikedState } from "@/utils/likesCookieClient";
+import { useArticleLikes } from "@/hooks/useArticleLikes";
 
 interface FeaturedArticlesListSectionProps {
   articles: Article[];
@@ -15,97 +13,17 @@ interface FeaturedArticlesListSectionProps {
 export function FeaturedArticlesListSection({
   articles: initialArticles,
 }: FeaturedArticlesListSectionProps) {
-  const [articles, setArticles] = useState(initialArticles);
-  const pendingDeltaByIdRef = useRef<Map<string, number>>(new Map());
-  const inFlightLikeIdsRef = useRef<Set<string>>(new Set());
-  const confirmedArticleByIdRef = useRef<Map<string, Article>>(
-    new Map(initialArticles.map((article) => [article.id, article]))
-  );
-
-  useEffect(() => {
-    const hydratedArticles = hydrateArticlesLikedState(initialArticles);
-    confirmedArticleByIdRef.current = new Map(
-      hydratedArticles.map((article) => [article.id, article])
-    );
-    setArticles(hydratedArticles);
-  }, [initialArticles]);
-
-  const flushPendingLikeDelta = async (articleId: string) => {
-    if (inFlightLikeIdsRef.current.has(articleId)) {
-      return;
-    }
-
-    inFlightLikeIdsRef.current.add(articleId);
-    try {
-      while (true) {
-        const delta = pendingDeltaByIdRef.current.get(articleId) ?? 0;
-        if (delta === 0) {
-          break;
-        }
-
-        pendingDeltaByIdRef.current.set(articleId, 0);
-
-        const result = await persistArticleLike({
-          articleId,
-          delta,
-        });
-
-        setArticles((previousArticles) =>
-          previousArticles.map((article) => {
-            if (article.id !== articleId) {
-              return article;
-            }
-
-            const nextArticle = {
-              ...article,
-              likes: result.likes,
-            };
-            confirmedArticleByIdRef.current.set(articleId, nextArticle);
-            return nextArticle;
-          })
-        );
-      }
-    } catch {
-      pendingDeltaByIdRef.current.set(articleId, 0);
-      const confirmedArticle = confirmedArticleByIdRef.current.get(articleId);
-      if (confirmedArticle) {
-        setArticles((previousArticles) =>
-          previousArticles.map((article) =>
-            article.id === articleId ? confirmedArticle : article
-          )
-        );
-      }
-      toast.error("Nao foi possivel atualizar o like.");
-    } finally {
-      inFlightLikeIdsRef.current.delete(articleId);
-    }
-  };
+  const { articles, toggleArticleLike } = useArticleLikes(initialArticles);
 
   const handleToggleLike = async (articleId: string) => {
-    const currentArticle = articles.find((article) => article.id === articleId);
-    if (!currentArticle) {
-      return;
+    const article = articles.find((item) => item.id === articleId);
+    if (!article) return;
+
+    try {
+      await toggleArticleLike(article);
+    } catch {
+      toast.error("Nao foi possivel atualizar o like.");
     }
-
-    const delta = currentArticle.isLiked ? -1 : 1;
-    const currentPendingDelta = pendingDeltaByIdRef.current.get(articleId) ?? 0;
-    pendingDeltaByIdRef.current.set(articleId, currentPendingDelta + delta);
-
-    setArticles((previousArticles) =>
-      previousArticles.map((article) => {
-        if (article.id !== articleId) {
-          return article;
-        }
-
-        return {
-          ...article,
-          isLiked: !article.isLiked,
-          likes: article.likes + delta,
-        };
-      })
-    );
-
-    await flushPendingLikeDelta(articleId);
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { CategoryFilterCarouselMobile } from "./CategoryFilterCarouselMobile";
 import { CategoryFilterButtonsRow } from "./CategoryFilterButtonsRow";
 import { Separator } from "../common/Separator";
@@ -14,9 +14,8 @@ import { formatDate, formatNumber } from "@/utils/formatter";
 import { getArticleUrl } from "@/utils/articles";
 import type { Article } from "@/types/article";
 import type { ArticleCategoryFilterOption } from "@/services/types";
-import { persistArticleLike } from "@/services/articleLikes";
 import { toast } from "sonner";
-import { hydrateArticlesLikedState } from "@/utils/likesCookieClient";
+import { useArticleLikes } from "@/hooks/useArticleLikes";
 
 interface ArticlesPreviewByCategorySectionProps {
   articles: Article[];
@@ -27,99 +26,18 @@ export function ArticlesPreviewByCategorySection({
   articles: initialArticles,
   categoryFilterOptions,
 }: ArticlesPreviewByCategorySectionProps) {
-  const [articles, setArticles] = useState<Article[]>(initialArticles);
+  const { articles, toggleArticleLike } = useArticleLikes(initialArticles);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const pendingDeltaByIdRef = useRef<Map<string, number>>(new Map());
-  const inFlightLikeIdsRef = useRef<Set<string>>(new Set());
-  const confirmedArticleByIdRef = useRef<Map<string, Article>>(
-    new Map(initialArticles.map((article) => [article.id, article]))
-  );
-
-  useEffect(() => {
-    const hydratedArticles = hydrateArticlesLikedState(initialArticles);
-    confirmedArticleByIdRef.current = new Map(
-      hydratedArticles.map((article) => [article.id, article])
-    );
-    setArticles(hydratedArticles);
-  }, [initialArticles]);
-
-  const flushPendingLikeDelta = async (articleId: string) => {
-    if (inFlightLikeIdsRef.current.has(articleId)) {
-      return;
-    }
-
-    inFlightLikeIdsRef.current.add(articleId);
-
-    try {
-      while (true) {
-        const delta = pendingDeltaByIdRef.current.get(articleId) ?? 0;
-        if (delta === 0) {
-          break;
-        }
-
-        pendingDeltaByIdRef.current.set(articleId, 0);
-
-        const result = await persistArticleLike({
-          articleId,
-          delta,
-        });
-
-        setArticles((previousArticles) =>
-          previousArticles.map((article) => {
-            if (article.id !== articleId) {
-              return article;
-            }
-
-            const nextArticle = {
-              ...article,
-              likes: result.likes,
-            };
-            confirmedArticleByIdRef.current.set(articleId, nextArticle);
-            return nextArticle;
-          })
-        );
-      }
-    } catch {
-      pendingDeltaByIdRef.current.set(articleId, 0);
-      const confirmedArticle = confirmedArticleByIdRef.current.get(articleId);
-      if (confirmedArticle) {
-        setArticles((previousArticles) =>
-          previousArticles.map((article) =>
-            article.id === articleId ? confirmedArticle : article
-          )
-        );
-      }
-      toast.error("Nao foi possivel atualizar o like.");
-    } finally {
-      inFlightLikeIdsRef.current.delete(articleId);
-    }
-  };
 
   const handleLike = async (articleId: string) => {
-    const currentArticle = articles.find((article) => article.id === articleId);
-    if (!currentArticle) {
-      return;
+    const article = articles.find((item) => item.id === articleId);
+    if (!article) return;
+
+    try {
+      await toggleArticleLike(article);
+    } catch {
+      toast.error("Nao foi possivel atualizar o like.");
     }
-
-    const delta = currentArticle.isLiked ? -1 : 1;
-    const currentPendingDelta = pendingDeltaByIdRef.current.get(articleId) ?? 0;
-    pendingDeltaByIdRef.current.set(articleId, currentPendingDelta + delta);
-
-    setArticles((previousArticles) =>
-      previousArticles.map((article) => {
-        if (article.id !== articleId) {
-          return article;
-        }
-
-        return {
-          ...article,
-          isLiked: !article.isLiked,
-          likes: article.likes + delta,
-        };
-      })
-    );
-
-    await flushPendingLikeDelta(articleId);
   };
 
   const filteredArticles =

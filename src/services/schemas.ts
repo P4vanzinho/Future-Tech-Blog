@@ -10,4 +10,5 @@ export const PersistArticleLikeInputSchema = z.object({
 
 export const PersistArticleLikeResponseSchema = z.object({
   likes: z.number().int().nonnegative(),
+  likedByOrigin: z.boolean(),
 });
