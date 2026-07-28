@@ -21,6 +21,7 @@ export async function persistArticleLike({
 
   const response = await fetch(`/api/articles/${articleId}/likes`, {
     method: "POST",
+    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
     },

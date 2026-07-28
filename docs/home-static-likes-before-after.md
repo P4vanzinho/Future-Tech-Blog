@@ -31,12 +31,13 @@ Result in build output before:
    - `src/components/home/HomeCategoryPreviewSection.tsx` now uses `getArticles()`.
 
 2. Moved like hydration to client-only code
-   - Added `src/utils/likesCookieClient.ts`.
-   - `FeaturedArticleSection`, `ArticlesList`, and `ArticlesPreviewByCategorySection` initialize state with cookie-based like flags in client runtime.
-   - No `useEffect` was introduced.
+   - Added TanStack Query through `src/components/providers/ReactQueryProvider.tsx`.
+   - `useArticleLikes` requests `/api/articles/:id/engagement` and uses its validated `likedByOrigin` response.
+   - Browser JavaScript no longer reads the like cookie directly.
 
-3. Kept signed cookie validation in API and made cookie readable by browser JS (option C)
-   - `src/app/api/articles/[id]/likes/route.ts` changed cookie option from `httpOnly: true` to `httpOnly: false`.
+3. Kept signed cookie validation in the API and kept the cookie `HttpOnly`
+   - `src/app/api/articles/[id]/likes/route.ts` sets `httpOnly: true`.
+   - The client reads the personalized like state through `/api/articles/:id/engagement`.
    - Signature validation in `src/utils/likesCookie.ts` remains the server authority for accepted likes/unlikes.
 
 ### Why `/` is static now
@@ -50,9 +51,9 @@ Result in build output after:
 
 ## Security note
 
-- Making the like cookie non-`httpOnly` allows client JS to read it for UI hydration.
+- The like cookie remains `httpOnly`, so browser JavaScript cannot read its value.
+- The engagement API returns only the derived `likedByOrigin` boolean needed by the UI.
 - Cookie forgery is still blocked by server-side HMAC validation.
-- The tradeoff is increased exposure under XSS compared to `httpOnly` cookies.
 
 ## Validation run
 

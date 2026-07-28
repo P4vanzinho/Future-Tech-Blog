@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ArticlePageContent } from "@/components/article/ArticlePageContent";
 import type { ArticleDetail } from "@/types/articleDetail";
+import { ReactQueryProvider } from "@/components/providers/ReactQueryProvider";
 
 vi.mock("@/components/article/ArticleEngagementInitializer", () => ({
   ArticleEngagementInitializer: () => null,
@@ -79,7 +80,11 @@ const article: ArticleDetail = {
 
 describe("ArticlePageContent", () => {
   it("renders CMS article title, metadata, table of contents and content", () => {
-    render(<ArticlePageContent article={article} />);
+    render(
+      <ReactQueryProvider>
+        <ArticlePageContent article={article} />
+      </ReactQueryProvider>
+    );
 
     expect(
       screen.getByRole("heading", { level: 1, name: article.title })

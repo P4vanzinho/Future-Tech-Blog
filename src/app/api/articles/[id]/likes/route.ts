@@ -198,7 +198,7 @@ export async function POST(
       likedCookieName,
       createSignedLikeCookieValue(articleId, secret),
       {
-        httpOnly: false,
+        httpOnly: true,
         sameSite: "lax",
         secure: isProductionEnv(),
         path: "/",
