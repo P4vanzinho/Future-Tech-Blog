@@ -21,14 +21,6 @@ const EnvSchema = z
       });
     }
 
-    if (env.NODE_ENV === "production" && env.MEDIA_STORAGE !== "r2") {
-      ctx.addIssue({
-        code: "custom",
-        path: ["MEDIA_STORAGE"],
-        message: "MEDIA_STORAGE=r2 is required in production",
-      });
-    }
-
     if (env.MEDIA_STORAGE !== "r2") {
       return;
     }

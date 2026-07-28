@@ -62,6 +62,8 @@ NODE_ENV=production npm run migrate
 
 Esse comando usa `DATABASE_URL`, `DATABASE_AUTH_TOKEN` e as variáveis R2 do ambiente. Execute-o uma vez por banco; não use `migrate:fresh` em um banco com dados.
 
+Como o Turso ainda não está ativo e o projeto permanece em modo local, não execute essa migração agora. Ela só será necessária quando houver um banco persistente e o R2 for ativado nesse ambiente.
+
 Os downloads passam pela rota do Payload e são redirecionados para uma URL temporária assinada do R2. Assim o bucket continua privado e o navegador não precisa receber as credenciais do R2.
 
 > Atenção: ativar o adapter não copia automaticamente arquivos que já estão no diretório `media/`. Antes de trocar um ambiente com conteúdo existente para R2, execute uma rotina de migração que preserve os registros de `media` (ou faça o reupload e repare as referências). Não remova os arquivos locais até confirmar que as imagens aparecem no bucket e no site.
@@ -89,4 +91,6 @@ O bucket de produção deve listar somente a origem de produção.
 
 ## Modo local
 
-Para executar sem R2, defina `MEDIA_STORAGE=local`. Em produção, a validação exige `MEDIA_STORAGE=r2` e todas as variáveis R2.
+Para executar sem R2, defina `MEDIA_STORAGE=local`. Esse é o modo atual do projeto e não altera os arquivos que já estão na pasta `media/`. O R2 só é ativado quando `MEDIA_STORAGE=r2` e todas as variáveis R2 estão preenchidas.
+
+O modo local pode ser usado enquanto o deploy e o Turso ainda não estiverem sob seu controle. Porém, armazenamento local em plataformas serverless não é uma solução persistente para produção; quando você puder controlar o ambiente, troque para R2.

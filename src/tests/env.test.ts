@@ -52,13 +52,12 @@ describe("environment configuration", () => {
     );
   });
 
-  it("requires R2 storage in production", () => {
+  it("allows local storage in production while R2 is opt-in", () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("PAYLOAD_SECRET", "production-secret");
     vi.stubEnv("MEDIA_STORAGE", "local");
 
-    expect(() => getValidatedEnv()).toThrow(
-      "MEDIA_STORAGE=r2 is required in production"
-    );
+    expect(getValidatedEnv().MEDIA_STORAGE).toBe("local");
+    expect(getR2StorageConfig()).toBeNull();
   });
 });
