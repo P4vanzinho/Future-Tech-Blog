@@ -7,7 +7,6 @@ import {
 } from "@/services/articles";
 import type { ArticleRouteProps } from "@/types/articleRoute";
 import { getArticleUrl } from "@/utils/articles";
-import { createArticleJsonLd } from "@/utils/articleMetadata";
 import { getSiteUrl } from "@/config/env";
 
 export const dynamic = "force-static";
@@ -33,6 +32,7 @@ export async function generateMetadata({
     title: article.title,
     description: article.description,
     alternates: { canonical: url },
+
     openGraph: {
       type: "article",
       url,
@@ -56,17 +56,8 @@ export default async function ArticlePage({ params }: ArticleRouteProps) {
   const article = await getArticleDetailBySlug(slug);
   if (!article) notFound();
 
-  const url = getArticleUrl(article.slug, getSiteUrl());
-  const jsonLd = createArticleJsonLd(article, url);
-
   return (
     <main>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
-        }}
-      />
       <ArticlePageContent article={article} />
     </main>
   );
