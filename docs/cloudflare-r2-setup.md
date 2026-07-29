@@ -62,7 +62,7 @@ NODE_ENV=production npm run migrate
 
 Esse comando usa `DATABASE_URL`, `DATABASE_AUTH_TOKEN` e as variáveis R2 do ambiente. Execute-o uma vez por banco; não use `migrate:fresh` em um banco com dados.
 
-Como o Turso ainda não está ativo e o projeto permanece em modo local, não execute essa migração agora. Ela só será necessária quando houver um banco persistente e o R2 for ativado nesse ambiente.
+Veja também [database-setup.md](./database-setup.md) para o fluxo completo de Turso + seed.
 
 Os downloads passam pela rota do Payload e são redirecionados para uma URL temporária assinada do R2. Assim o bucket continua privado e o navegador não precisa receber as credenciais do R2.
 

@@ -42,3 +42,11 @@ yarn-error.log*
 next-env.d.ts
 
 .cursor/pr-body-last.md
+
+# local databases
+payload.db
+.tmp-empty.db
+.tmp-seed.db
+
+# payload local uploads
+media/

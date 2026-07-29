@@ -19,6 +19,10 @@ describe("environment configuration", () => {
 
   it("requires every R2 setting when R2 storage is enabled", () => {
     vi.stubEnv("MEDIA_STORAGE", "r2");
+    vi.stubEnv("R2_BUCKET", "");
+    vi.stubEnv("R2_ENDPOINT", "");
+    vi.stubEnv("R2_ACCESS_KEY_ID", "");
+    vi.stubEnv("R2_SECRET_ACCESS_KEY", "");
 
     expect(() => getValidatedEnv()).toThrow(
       "MEDIA_STORAGE=r2 requires R2_BUCKET, R2_ENDPOINT, R2_ACCESS_KEY_ID and R2_SECRET_ACCESS_KEY"

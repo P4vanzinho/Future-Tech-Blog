@@ -9,6 +9,7 @@ import { Media } from "./src/collections/Media";
 import { Authors } from "./src/collections/Authors";
 import { Categories } from "./src/collections/Categories";
 import { Articles } from "./src/collections/Articles";
+import { Users } from "./src/collections/Users";
 import { getPayloadSecret, getR2StorageConfig } from "./src/config/env";
 
 const filename = fileURLToPath(import.meta.url);
@@ -49,7 +50,7 @@ export default buildConfig({
         }
       : {}),
   },
-  collections: [Media, Authors, Categories, Articles],
+  collections: [Users, Media, Authors, Categories, Articles],
   editor: lexicalEditor({}),
   secret: getPayloadSecret(),
   plugins: r2StoragePlugin ? [r2StoragePlugin] : [],

@@ -10,7 +10,9 @@
     "start": "next start",
     "payload": "payload",
     "migrate:create": "payload migrate:create",
-    "migrate": "payload migrate",
+    "migrate": "tsx src/scripts/migrate.ts",
+    "seed": "tsx src/seed/run.ts",
+    "db:setup": "npm run migrate && npm run seed",
     "generate:types": "payload generate:types",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -70,6 +72,7 @@
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5",
     "vitest": "^4.0.7"
   },
