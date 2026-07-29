@@ -1,10 +1,10 @@
 import { ArticlesPreviewByCategorySection } from "@/components/home/ArticlesPreviewByCategorySection";
+import { getArticles } from "@/services/articles";
 import { getArticleCategoryFilterOptions } from "@/services/categories";
-import { getHomeArticles } from "@/services/homeData";
 
 export async function HomeCategoryPreviewSection() {
   const [articles, categoryFilterOptions] = await Promise.all([
-    getHomeArticles(),
+    getArticles(),
     getArticleCategoryFilterOptions(),
   ]);
 

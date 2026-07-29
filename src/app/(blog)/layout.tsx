@@ -4,6 +4,7 @@ import { Inter, Kumbh_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/block/Header";
 import { Footer } from "@/components/block/Footer";
+import { ReactQueryProvider } from "@/components/providers/ReactQueryProvider";
 import { Toaster } from "sonner";
 
 const inter = Inter({
@@ -31,16 +32,18 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${kumbhSans.variable} bg-dark-08 overflow-x-hidden font-sans`}
       >
-        <Header />
-        {children}
-        <Footer />
-        <Toaster
-          position="bottom-right"
-          richColors
-          toastOptions={{
-            duration: 2000,
-          }}
-        />
+        <ReactQueryProvider>
+          <Header />
+          {children}
+          <Footer />
+          <Toaster
+            position="bottom-right"
+            richColors
+            toastOptions={{
+              duration: 2000,
+            }}
+          />
+        </ReactQueryProvider>
       </body>
     </html>
   );

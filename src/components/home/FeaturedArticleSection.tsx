@@ -1,18 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useMemo } from "react";
 import { Separator } from "@/components/common/Separator";
 import type { Article } from "@/types/article";
 import { MetadataItem } from "../blog/MetadataItem";
 import { formatDate, formatNumber } from "@/utils/formatter";
-import { getArticleUrl } from "@/utils/articles";
 import { SocialStatButton } from "../blog/SocialStatButton";
 import { SharePopover } from "../blog/SharePopover";
 import { LikeIcon } from "../common/icons/LikeIcon";
 import { LinkButton } from "../blog/LinkButton";
-import { persistArticleLike } from "@/services/articleLikes";
 import { toast } from "sonner";
+import { useArticleLikes } from "@/hooks/useArticleLikes";
 
 interface LastFeaturedArticleSectionProps {
   article: Article | null;
@@ -21,65 +20,21 @@ interface LastFeaturedArticleSectionProps {
 export function LastFeaturedArticleSection({
   article: initialArticle,
 }: LastFeaturedArticleSectionProps) {
-  const [article, setArticle] = useState(initialArticle);
-  const pendingDeltaRef = useRef(0);
-  const isPersistingLikeRef = useRef(false);
-  const confirmedArticleRef = useRef(initialArticle);
+  const initialArticles = useMemo(
+    () => (initialArticle ? [initialArticle] : []),
+    [initialArticle]
+  );
+  const { articles, toggleArticleLike } = useArticleLikes(initialArticles);
+  const article = articles[0];
 
   if (!article) return null;
 
-  const flushPendingLikeDelta = async () => {
-    if (isPersistingLikeRef.current || !article) {
-      return;
-    }
-
-    isPersistingLikeRef.current = true;
-    try {
-      while (pendingDeltaRef.current !== 0) {
-        const delta = pendingDeltaRef.current;
-        pendingDeltaRef.current = 0;
-
-        const result = await persistArticleLike({
-          articleId: article.id,
-          delta,
-        });
-
-        setArticle((currentArticle) => {
-          if (!currentArticle) {
-            return currentArticle;
-          }
-
-          const nextArticle = {
-            ...currentArticle,
-            likes: result.likes,
-          };
-          confirmedArticleRef.current = nextArticle;
-          return nextArticle;
-        });
-      }
-    } catch {
-      pendingDeltaRef.current = 0;
-      setArticle(confirmedArticleRef.current);
-      toast.error("Nao foi possivel atualizar o like.");
-    } finally {
-      isPersistingLikeRef.current = false;
-    }
-  };
-
   const handleLike = async () => {
-    const delta = article.isLiked ? -1 : 1;
-    pendingDeltaRef.current += delta;
-
-    setArticle((previousArticle) =>
-      previousArticle
-        ? {
-            ...previousArticle,
-            isLiked: !previousArticle.isLiked,
-            likes: previousArticle.likes + delta,
-          }
-        : previousArticle
-    );
-    await flushPendingLikeDelta();
+    try {
+      await toggleArticleLike(article);
+    } catch {
+      toast.error("Nao foi possivel atualizar o like.");
+    }
   };
 
   return (
@@ -133,11 +88,7 @@ export function LastFeaturedArticleSection({
                 transparent={!article.isLiked}
                 onClick={handleLike}
               />
-              <SharePopover
-                url={getArticleUrl(article.slug)}
-                title={article.title}
-                shareCount={article.shares}
-              />
+              <SharePopover article={article} />
             </div>
             <LinkButton
               className="max-w-[140px] 2xl:max-w-[6.813rem] 2xl:px-[1.5rem] 2xl:py-[1.125rem]"

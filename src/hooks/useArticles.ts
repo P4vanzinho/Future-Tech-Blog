@@ -23,7 +23,6 @@ export function useArticles() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Article[] | null>(null);
 
-  // eslint-disable-next-line no-restricted-syntax
   useEffect(() => {
     const timer = setTimeout(() => {
       setData([...mockArticles]);

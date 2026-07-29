@@ -146,6 +146,7 @@ export async function POST(
     id: articleId,
     depth: 0,
     select: {
+      _status: true,
       stats: true,
     },
   });
@@ -158,6 +159,12 @@ export async function POST(
     );
   }
   const article = parsedArticle.data;
+  if (article._status !== "published") {
+    return NextResponse.json(
+      { message: "Article not found." },
+      { status: 404 }
+    );
+  }
 
   const nextLikes = Math.max(0, readCurrentLikes(article) + delta);
 
@@ -171,7 +178,11 @@ export async function POST(
     },
     depth: 0,
     overrideAccess: true,
+    context: {
+      skipRevalidation: true,
+    },
     select: {
+      _status: true,
       stats: true,
     },
   });

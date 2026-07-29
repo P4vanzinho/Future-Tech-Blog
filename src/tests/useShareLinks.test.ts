@@ -16,7 +16,7 @@ describe("useShareLinks", () => {
   it("should generate correct Twitter share URL", () => {
     const { result } = renderHook(() => useShareLinks(mockUrl, mockTitle));
 
-    expect(result.current.twitter).toContain("twitter.com/intent/tweet");
+    expect(result.current.twitter).toContain("x.com/intent/tweet");
     expect(result.current.twitter).toContain("url=");
     expect(result.current.twitter).toContain("text=");
   });

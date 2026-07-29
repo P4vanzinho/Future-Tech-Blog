@@ -5,6 +5,7 @@ import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
 import { forwardRef } from "react";
+import { atom, createStore, Provider, useAtomValue } from "jotai";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -38,13 +39,22 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       },
       plugins
     );
+    const [carouselStore] = React.useState(() => {
+      const store = createStore();
+      store.set(carouselStateAtom, { api, carouselRef });
+      return store;
+    });
+
     React.useEffect(() => {
       if (!api || !setApi) return;
       setApi(api);
     }, [api, setApi]);
+    React.useEffect(() => {
+      carouselStore.set(carouselStateAtom, { api, carouselRef });
+    }, [api, carouselRef, carouselStore]);
 
     return (
-      <CarouselContext.Provider value={{ api, carouselRef }}>
+      <Provider store={carouselStore}>
         <div
           ref={ref}
           className={className}
@@ -55,25 +65,25 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
             {children}
           </div>
         </div>
-      </CarouselContext.Provider>
+      </Provider>
     );
   }
 );
 Carousel.displayName = "Carousel";
 
-type CarouselContextProps = {
+type CarouselState = {
   api: CarouselApi | undefined;
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
 };
 
-const CarouselContext = React.createContext<CarouselContextProps | null>(null);
+const carouselStateAtom = atom<CarouselState | null>(null);
 
 function useCarousel() {
-  const context = React.useContext(CarouselContext);
-  if (!context) {
+  const carouselState = useAtomValue(carouselStateAtom);
+  if (!carouselState) {
     throw new Error("useCarousel must be used within a <Carousel />");
   }
-  return context;
+  return carouselState;
 }
 
 const CarouselContent = forwardRef<

@@ -3,6 +3,7 @@ import { Media } from "../collections/Media";
 import { Authors } from "../collections/Authors";
 import { Categories } from "../collections/Categories";
 import { Articles } from "../collections/Articles";
+import { Users } from "../collections/Users";
 
 describe("Payload CMS Collections Schema", () => {
   it("should have correct slugs for all collections", () => {
@@ -10,6 +11,7 @@ describe("Payload CMS Collections Schema", () => {
     expect(Authors.slug).toBe("authors");
     expect(Categories.slug).toBe("categories");
     expect(Articles.slug).toBe("articles");
+    expect(Users.slug).toBe("users");
   });
 
   it("should have required fields in Authors collection", () => {

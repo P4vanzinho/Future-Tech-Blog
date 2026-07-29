@@ -3,16 +3,28 @@ import {
   revalidateHomeAfterChange,
   revalidateHomeAfterDelete,
 } from "@/hooks/revalidateHome";
+import { setArticlePublishedAt } from "@/hooks/setArticlePublishedAt";
+import { isValidArticleSlug, normalizeArticleSlug } from "@/utils/articleSlug";
 
 export const Articles: CollectionConfig = {
   slug: "articles",
+  versions: {
+    drafts: {
+      autosave: false,
+    },
+  },
   admin: {
     useAsTitle: "title",
   },
   access: {
-    read: () => true,
+    read: () => ({
+      _status: {
+        equals: "published",
+      },
+    }),
   },
   hooks: {
+    beforeChange: [setArticlePublishedAt],
     afterChange: [revalidateHomeAfterChange],
     afterDelete: [revalidateHomeAfterDelete],
   },
@@ -33,6 +45,17 @@ export const Articles: CollectionConfig = {
               type: "text",
               unique: true,
               required: true,
+              hooks: {
+                beforeValidate: [
+                  ({ value }) =>
+                    typeof value === "string"
+                      ? normalizeArticleSlug(value)
+                      : value,
+                ],
+              },
+              validate: (value: string | null | undefined) =>
+                Boolean(value && isValidArticleSlug(value)) ||
+                "Use lowercase letters, numbers and hyphens only.",
             },
             {
               name: "isFeatured",
@@ -63,6 +86,16 @@ export const Articles: CollectionConfig = {
               type: "textarea",
               label: "Card summary",
               required: true,
+            },
+            {
+              name: "publishedAt",
+              type: "date",
+              admin: {
+                position: "sidebar",
+                date: {
+                  pickerAppearance: "dayAndTime",
+                },
+              },
             },
           ],
         },
